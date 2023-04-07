@@ -1,6 +1,14 @@
 import Head from 'next/head'
+import dynamic from "next/dynamic";
 
-export default function Home() {
+const Login = dynamic(
+  () => {
+    return import("../components/Login");
+  },
+  { ssr: false }
+);
+
+function Home() {
   return (
     <>
       <Head>
@@ -9,7 +17,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>hi</div>
+      <Login/>
     </>
   )
 }
+export default Home
