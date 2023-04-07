@@ -1,5 +1,7 @@
 import Head from 'next/head'
+
 import dynamic from "next/dynamic";
+import Landing from './Landing'
 
 const Login = dynamic(
   () => {
@@ -18,6 +20,8 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Login/>
+
+      <Landing/>
     </>
   )
 }
