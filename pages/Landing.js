@@ -6,7 +6,7 @@ export default function Landing() {
     <>
      <div className='bg-[#CDFAE5] h-screen flex flex-col  '>
       <div className='logo bg-white flex w-36 items-center justify-center rounded-md m-8'>
-            <Image className='rounded-xl' src={'logo.svg'} width={50} height={50} alt='logo'></Image>
+            <Image className='rounded-xl' src="./logo.svg" width={50} height={50} alt='logo'/>
             <div className='text-[#1ac073] text-lg font-semibold'>TABLE TAP</div>
           </div>
         <div className='flex md:flex-row flex-col h-4/5  w-full space-x-5   '>
