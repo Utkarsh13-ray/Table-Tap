@@ -3,19 +3,15 @@ import { CgSpinner } from "react-icons/cg";
 import Link from "next/link";
 
 import OtpInput from "otp-input-react";
-import { useDispatch } from "react-redux";
-import { connect } from "react-redux";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { auth } from "../config/firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
-import { setLoading, setPh, setOTP, setCurrentUser, setShowOTP } from "@/redux/actions";
 
 
-const App = (props) => {
-  const dispatch = useDispatch()
-  const { currentUser, otp, ph, showOTP, loading, error} = props.state
+const Modal = (props) => {
+  console.log(props)
 
   const onCaptchVerify = () => {
     if (!window.recaptchaVerifier) {
@@ -39,7 +35,6 @@ const App = (props) => {
 
     const appVerifier = window.recaptchaVerifier;
     const formatPh = "+" + ph;
-    console.log(ph)
 
     signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
@@ -70,22 +65,50 @@ const App = (props) => {
         toast.error("Wrong OTP!")
       });
   }
-
   return (
-    <section className="bg-emerald-500 flex items-center justify-center h-screen">
+    <div className="h-screen w-screen top-0 left-0 fixed z-10">
+    <Toaster toastOptions={{ duration: 4000 }} />
+      <div
+        className="h-screen w-screen top-0 left-0 bg-[#313131cc] blur-none fixed"
+        onClick={() => props.setModal(false)}
+      ></div>
+      <div className="bg-emerald-500 z-20 h-fit px-2 py-2 rounded-lg absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => props.setModal(false)}
+            className="bg-[#dd3439] rounded-md p-1 inline-flex items-center justify-center text-white hover:bg-[#e0454a] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+          >
+            <svg
+              className="h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <section className=" flex items-center justify-center">
       <div>
-        <Toaster toastOptions={{ duration: 4000 }} />
-        <div id="recaptcha-container"></div>
+
         {currentUser ? (
-          <h2 className="text-center text-white font-medium text-2xl">
-            Order Placed!
-            <Link href="/menu"> <button>Menu</button></Link>
+          <div className="flex flex-col justify-center items-center">
+          <h2 className="text-center text-white font-medium text-2xl p-4">
+            <button onClick={()=>props.placeOrder()} className="border border-blackp p-2">Place Order</button>
           </h2>
+          <Link href="/menu"> <button  className=" bg-yellow-500 text-white rounded-md flex items-center justify-center px-3 py-2 hover:cursor-pointer">Order More</button></Link>
+          </div>
         ) : (
           <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
-            <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">
-              Welcome to <br /> CODE A PROGRAM
-            </h1>
             {showOTP ? (
               <>
                 <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
@@ -143,26 +166,10 @@ const App = (props) => {
         )}
       </div>
     </section>
+      </div>
+      <div id="recaptcha-container"></div>
+      </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return{
-    setLoading: (value) => dispatch(setLoading(value)),
-    setOTP: (value) => dispatch(setOTP(value)),
-    setPh: (value) => dispatch(setPh(value)),
-    setShowOTP: (value) => dispatch(setShowOTP(value)),
-    setCurrentUser: (value) => dispatch(setCurrentUser(value)),
-    dispatch,
-  }
-}
-const mapStateToProps = (state) => {
-  return {
-      state: state.user
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-) (App)
+export default Modal
