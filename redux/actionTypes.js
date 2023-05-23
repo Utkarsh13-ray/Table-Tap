@@ -1,5 +1,0 @@
-export const SET_LOADING = "SET_LOADING"
-export const SET_SHOW_OTP = "SET_SHOW_OTP"
-export const SET_OTP = "SET_OTP"
-export const SET_CURRENT_USER = "SET_USER"
-export const SET_PH = "SET_PH"

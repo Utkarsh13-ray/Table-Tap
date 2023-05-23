@@ -8,9 +8,16 @@ import "react-phone-input-2/lib/style.css";
 import { auth } from "../config/firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import { useState } from "react";
+import { useStateContext } from "../context/stateContext";
 
 
 const Modal = (props) => {
+  const [loading, setLoading] = useState(false)
+  const [showOTP, setShowOTP] = useState(false)
+  const { currentUser, setCurrentUser } = useStateContext()
+  const [ph, setPh] = useState()
+
   console.log(props)
 
   const onCaptchVerify = () => {
@@ -30,8 +37,8 @@ const Modal = (props) => {
   }
 
   const onSignup = () => {
-    dispatch(props.setLoading(true));
-    onCaptchVerify();
+    setLoading(true)
+    onCaptchVerify()
 
     const appVerifier = window.recaptchaVerifier;
     const formatPh = "+" + ph;
@@ -39,29 +46,29 @@ const Modal = (props) => {
     signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
-        props.setLoading(false);
-        props.setShowOTP(true);
+        setLoading(false);
+        setShowOTP(true);
         toast.success("OTP sended successfully!");
       })
       .catch((error) => {
         console.log(error);
-        props.setLoading(false);
+        setLoading(false);
       });
   }
 
   const onOTPVerify = () => {
-    props.setLoading(true);
+    setLoading(true);
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
         console.log(res);
-        props.setCurrentUser(res.user);
-        props.setLoading(false);
+        setCurrentUser(res.user);
+        setLoading(false);
         toast.success("Welcome to Table Tap!")
       })
       .catch((err) => {
         console.log(err);
-        props.setLoading(false)
+        setLoading(false)
         toast.error("Wrong OTP!")
       });
   }
