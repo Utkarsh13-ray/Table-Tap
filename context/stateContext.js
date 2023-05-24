@@ -15,7 +15,7 @@ export const StateContext = ({ children }) => {
     let index;
 
     const onAdd = (product, quantity) => {
-        const checkProductInCart = cartItems.find((item) => item._id === product._id)
+        const checkProductInCart = cartItems.find((item) => item.id === product.id)
 
         setTotalPrice((prev) => prev + product.price * quantity)
         setTotalQuantities((prev) => prev + quantity)
@@ -33,7 +33,7 @@ export const StateContext = ({ children }) => {
             product.quantity = quantity
             setCartItems([...cartItems, {...product}])
         }
-        toast.success(`${qty} ${product.name} added to the cart.`)
+        toast.success(`${quantity} ${product.name} added to the cart.`)
     }
 
     const toggleCartItemQuantity = (id, value) => {
