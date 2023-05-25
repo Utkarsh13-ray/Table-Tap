@@ -59,26 +59,24 @@ const Menu = (props) => {
     <>
       <Toaster/>
       {modal && <Modal setModal={setModal} placeOrder={placeOrder} cartItems={cartItems}/>}
-      <div className="bg-[#FFF9DB]">
+      <div className="bg-[#f9f5e0] flex flex-col">
         <Navbar />
 
         {/* Inside container after navbar */}
-        <div className="container mx-auto max-w-4xl mt-9 rounded-3xl border-2 border-highlight">
+        <div className="container mx-auto max-w-3xl overflow-hidden shadow-2xl mt-9 mb-12 rounded border p-10">
           <Category title="Starters" menu={menu} cat="starter" clickHandler={clickHandler}/>
           <Category title="Main Course" menu={menu} cat="main_course" clickHandler={clickHandler}/>
           <Category title="Desserts" menu={menu} cat="dessert" clickHandler={clickHandler}/>
           <Category title="Chapati" menu={menu} cat="chapati" clickHandler={clickHandler}/>
           <Category title="Salads" menu={menu} cat="salad" clickHandler={clickHandler}/>
         </div>
-        <div className="fixed bottom-2">
-          <div className="flex justify-center w-screen">
+        <div className="fixed bottom-2 bg-transparent flex justify-center items-center w-full">
             <button
               onClick={orderHandler}
-              className="bg-highlight w-56 text-white px-2 py-1 rounded-md text-center"
+              className="bg-highlight w-48 text-white px-2 py-1 rounded-md text-center"
             >
               Place Order
             </button>
-          </div>
         </div>
       </div>
     </>

@@ -1,9 +1,9 @@
 const Navbar = () => {
   return (
     <>
-     <header className="px-6 bg-secondary flex  flex-wrap max-w-4xl rounded-b-xl  mx-auto items-center lg:py-0 py-2 ">
-    <div className="flex-1  flex justify-between items-center  text-xl">
-      <a className="text-lg font-bold text-black" href="#">
+     <header className="px-6 shadow-2xl text-black flex max-w-3xl w-full flex-wrap rounded-b-xl  mx-auto items-center lg:py-0 py-2">
+    <div className="flex-1  flex justify-between items-center text-xl">
+      <a className="text-lg font-bold text-black" href="/">
          Table Tap
       </a>
     </div>
@@ -13,7 +13,7 @@ const Navbar = () => {
     </label>
     <input className="hidden" type="checkbox" id="menu-toggle" />
 
-    <div className="hidden lg:flex lg:items-center text-white lg:w-auto w-full" id="menu">
+    <div className="hidden lg:flex lg:items-center  lg:w-auto w-full" id="menu">
       <nav>
         <ul className="lg:flex items-center justify-between text-sm font-medium  pt-4 lg:pt-0">
           <li><a className="lg:p-4 py-3 px-0 block" href="#">Login as Resteraunt</a></li>
