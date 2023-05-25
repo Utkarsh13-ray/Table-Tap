@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useStateContext } from "../context/stateContext";
-import Navbar from "@/components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
 import Category from "@/components/Category";
+import {useRouter} from "next/router";
 
 const Modal = dynamic(
   () => {
@@ -16,11 +15,14 @@ const Modal = dynamic(
 );
 
 const Menu = (props) => {
+  const router = useRouter()
   const { menu } = props;
 
   const [modal, setModal] = useState(false);
   const { onAdd, cartItems } = useStateContext();
-
+  useEffect(()=>{
+    cartItems.map((item)=>console.log(item))
+  })
 
   useEffect(() => {
     if (modal) document.body.classList.add("overflow-y-hidden");
@@ -30,10 +32,10 @@ const Menu = (props) => {
   const clickHandler = (item, ind, category) => {
     return e => {
         e.preventDefault();
-        console.log(category.current.children[ind].children[1].children[1].children[0].value)
         const enteredAmount = category.current.children[ind].children[1].children[1].children[0].value;
         const enteredAmt = +enteredAmount;
         onAdd(item, enteredAmt);
+        category.current.children[ind].children[1].children[1].children[0].value = ""
     }
   };
 
@@ -48,22 +50,19 @@ const Menu = (props) => {
       cartItems.map((item) => {
         const add = async () => {
           const document = await addDoc(usersCollectionRef, item);
-          console.log(item);
         };
         add();
       });
       setModal(false);
+      router.push("/thanks")
   };
 
   return (
     <>
-      <Toaster/>
       {modal && <Modal setModal={setModal} placeOrder={placeOrder} cartItems={cartItems}/>}
-      <div className="bg-[#f9f5e0] flex flex-col">
-        <Navbar />
-
+      <div className="flex flex-col">
         {/* Inside container after navbar */}
-        <div className="container mx-auto max-w-3xl overflow-hidden shadow-2xl mt-9 mb-12 rounded border p-10">
+        <div className="container mx-auto max-w-3xl shadow-2xl mt-9 mb-12 rounded border p-10 bg-white ">
           <Category title="Starters" menu={menu} cat="starter" clickHandler={clickHandler}/>
           <Category title="Main Course" menu={menu} cat="main_course" clickHandler={clickHandler}/>
           <Category title="Desserts" menu={menu} cat="dessert" clickHandler={clickHandler}/>

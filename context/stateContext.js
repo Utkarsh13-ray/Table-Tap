@@ -20,22 +20,24 @@ export const StateContext = ({ children }) => {
         }
         else{
 
-        
-        const checkProductInCart = cartItems.find((item) => item.id === product.id)
+            const checkProductInCart = cartItems.find((item) => item.id === product.id)
+            console.log(checkProductInCart)
             
-        setTotalPrice((prev) => prev + product.price * quantity)
-        setTotalQuantities((prev) => prev + quantity)
+            setTotalPrice((prev) => prev + product.price * quantity)
+            setTotalQuantities((prev) => prev + quantity)
 
-        if(checkProductInCart) {
-            const updatedCartItems = cartItems.map((cartProduct) => {
-                if(cartProduct._id === product._id) return {
-                    ...cartProduct,
-                    quantity: cartProduct.quantity + quantity
-                }
-            })
-
-            setCartItems(updatedCartItems)
-        } else {
+            if(checkProductInCart) {
+                const updatedCartItems = cartItems.map((item) => {
+                    if(item.id === product.id) {
+                        return {
+                            ...item,
+                            quantity: item.quantity + quantity
+                        }
+                    }
+                    return item
+                })
+                setCartItems(updatedCartItems)
+            } else {
             product.quantity = quantity
             setCartItems([...cartItems, {...product}])
         }

@@ -1,7 +1,7 @@
 const Navbar = () => {
   return (
     <>
-     <header className="px-6 shadow-2xl text-black flex max-w-3xl w-full flex-wrap rounded-b-xl  mx-auto items-center lg:py-0 py-2">
+     <header className="bg-white px-6 shadow-2xl text-black flex max-w-3xl w-full flex-wrap mx-auto items-center lg:py-0 py-2">
     <div className="flex-1  flex justify-between items-center text-xl">
       <a className="text-lg font-bold text-black" href="/">
          Table Tap
