@@ -15,8 +15,14 @@ export const StateContext = ({ children }) => {
     let index;
 
     const onAdd = (product, quantity) => {
-        const checkProductInCart = cartItems.find((item) => item.id === product.id)
+        if(quantity=== 0) {
+            toast.error("Quantity should be atleast 1")
+        }
+        else{
 
+        
+        const checkProductInCart = cartItems.find((item) => item.id === product.id)
+            
         setTotalPrice((prev) => prev + product.price * quantity)
         setTotalQuantities((prev) => prev + quantity)
 
@@ -35,7 +41,7 @@ export const StateContext = ({ children }) => {
         }
         toast.success(`${quantity} ${product.name} added to the cart.`)
     }
-
+    }
     const toggleCartItemQuantity = (id, value) => {
         foundProduct = cartItems.find ((item) => item._id == id)
         index = cartItems.findIndex((product) => product._id === id)

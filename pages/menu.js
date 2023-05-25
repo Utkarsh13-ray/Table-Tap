@@ -63,7 +63,7 @@ const Menu = (props) => {
         <Navbar />
 
         {/* Inside container after navbar */}
-        <div className="container mx-auto max-w-4xl mt-9 bg-gray-200 rounded-3xl border border-red-700">
+        <div className="container mx-auto max-w-4xl mt-9 rounded-3xl border-2 border-highlight">
           <Category title="Starters" menu={menu} cat="starter" clickHandler={clickHandler}/>
           <Category title="Main Course" menu={menu} cat="main_course" clickHandler={clickHandler}/>
           <Category title="Desserts" menu={menu} cat="dessert" clickHandler={clickHandler}/>
