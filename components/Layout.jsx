@@ -7,10 +7,10 @@ const Layout = ({children}) => {
       <Head>
         <title>Resteraunt</title>
       </Head>
-      <header>
+      <header className=''>
         <Navbar/>
       </header>
-      <main className='max-w-[1400px] m-auto w-full'>
+      <main className='m-auto w-full'>
         {children}
       </main>
     </div>

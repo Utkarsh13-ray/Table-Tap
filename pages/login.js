@@ -1,6 +1,7 @@
-import React from 'react'
+import {useRouter} from 'next/router'
 
 const login = () => {
+  const router = useRouter()
   return (
     <>
     <section className="h-screen bg-slate-50 flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
@@ -65,13 +66,14 @@ const login = () => {
         <div className="text-center md:text-left">
           <button
             className="mt-4 bg-highlight hover:bg-[#066163] px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
-            type="submit"
+            type="button"
+            onClick={() => router.push("/dashboard")}
           >
             Login
           </button>
         </div>
         <div className="mt-4 font-semibold text-sm text-slate-500 text-center md:text-left">
-          Don't have an account?{" "}
+          Don't have an account?
           <a
             className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4"
             href="#"

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { toast } from "react-hot-toast"
 
 const Context = createContext()
@@ -10,9 +10,9 @@ export const StateContext = ({ children }) => {
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalQuantities, setTotalQuantities] = useState(0)
     const [qty, setQty] = useState(1)
+    const [navHeight, setNavHeight] = useState(0)
 
     let foundProduct;
-    let index;
 
     const onAdd = (product, quantity) => {
         if(quantity=== 0) {
@@ -97,7 +97,9 @@ export const StateContext = ({ children }) => {
                 toggleCartItemQuantity,
                 onRemove,
                 currentUser,
-                setCurrentUser
+                setCurrentUser,
+                navHeight,
+                setNavHeight
             }}
         >
             { children }
@@ -105,4 +107,4 @@ export const StateContext = ({ children }) => {
     )
 }
 
-export const useStateContext = () => useContext(Context)
+export const useStateContext = () => (Context)

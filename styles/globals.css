@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color: #f9f5e0;
-}
-
 body::-webkit-scrollbar {
     display: none;
-  }
+}
+
+.setHeight {
+    height: calc(100vh-44px);
+}

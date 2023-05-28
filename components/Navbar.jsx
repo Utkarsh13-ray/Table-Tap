@@ -1,11 +1,13 @@
+import Link from "next/link"
+
 const Navbar = () => {
   return (
     <>
      <header className="bg-white px-6 shadow-2xl text-black flex max-w-3xl w-full flex-wrap mx-auto items-center lg:py-0 py-2">
     <div className="flex-1  flex justify-between items-center text-xl">
-      <a className="text-lg font-bold text-black" href="/">
+      <Link className="text-lg font-bold text-black" href="/">
          Table Tap
-      </a>
+      </Link>
     </div>
 
     <label htmlFor="menu-toggle" className="cursor-pointer lg:hidden block">
@@ -16,7 +18,11 @@ const Navbar = () => {
     <div className="hidden lg:flex lg:items-center  lg:w-auto w-full" id="menu">
       <nav>
         <ul className="lg:flex items-center justify-between text-sm font-medium  pt-4 lg:pt-0">
-          <li><a className="lg:p-4 py-3 px-0 block" href="#">Login as Resteraunt</a></li>
+          <li>
+        <Link className="lg:p-4 py-3 px-0 block" href="/login">
+          Login as Resteraunt
+        </Link>
+          </li>
         </ul>
       </nav>
       <a href="#" className="lg:ml-4 flex items-center justify-start lg:mb-0 mb-4 pointer-cursor" id="userdropdown">

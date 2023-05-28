@@ -1,7 +1,6 @@
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { MdTextsms } from "react-icons/md"
 import { CgSpinner } from "react-icons/cg";
-import Link from "next/link";
 
 import OtpInput from "otp-input-react";
 import PhoneInput from "react-phone-input-2";

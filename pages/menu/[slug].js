@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
-import { useStateContext } from "../context/stateContext";
-import toast, { Toaster } from 'react-hot-toast';
+import { db } from "../../config/firebase";
+import { useStateContext } from "../../context/stateContext";
+import toast from 'react-hot-toast';
 import Category from "@/components/Category";
 import {useRouter} from "next/router";
 
 const Modal = dynamic(
   () => {
-    return import("../components/Modal");
+    return import("../../components/Modal");
   },
   { ssr: false }
 );
@@ -20,9 +20,6 @@ const Menu = (props) => {
 
   const [modal, setModal] = useState(false);
   const { onAdd, cartItems } = useStateContext();
-  useEffect(()=>{
-    cartItems.map((item)=>console.log(item))
-  })
 
   useEffect(() => {
     if (modal) document.body.classList.add("overflow-y-hidden");
@@ -46,7 +43,7 @@ const Menu = (props) => {
   }
 
   const placeOrder = () => {
-      const usersCollectionRef = collection(db, "Table1");
+      const usersCollectionRef = collection(db, router.query.slug);
       cartItems.map((item) => {
         const add = async () => {
           const document = await addDoc(usersCollectionRef, item);

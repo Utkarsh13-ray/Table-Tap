@@ -13,7 +13,7 @@ export default function Landing() {
                 Lets order <span className="text-[#1ac073]">FOOD</span>
               </div>
             </div>
-            <Link href={"/menu"}>
+            <Link href={"/menu/Table1"}>
               <div className="button bg-yellow-500 w-52 h-9 text-white rounded-md flex items-center justify-center my- hover:cursor-pointer">
                 MENU
               </div>
