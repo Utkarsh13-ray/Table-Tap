@@ -59,7 +59,7 @@ const Menu = (props) => {
       });
       setModal(false);
       updateOrders()
-      router.push("/thanks")
+      router.push("/Thank")
   };
 
   return (
