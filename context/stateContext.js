@@ -9,8 +9,6 @@ export const StateContext = ({ children }) => {
     const [cartItems, setCartItems] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalQuantities, setTotalQuantities] = useState(0)
-    const [qty, setQty] = useState(1)
-    const [navHeight, setNavHeight] = useState(0)
 
     let foundProduct;
 
@@ -19,10 +17,8 @@ export const StateContext = ({ children }) => {
             toast.error("Quantity should be atleast 1")
         }
         else{
-
             const checkProductInCart = cartItems.find((item) => item.id === product.id)
-            console.log(checkProductInCart)
-            
+
             setTotalPrice((prev) => prev + product.price * quantity)
             setTotalQuantities((prev) => prev + quantity)
 
@@ -44,6 +40,7 @@ export const StateContext = ({ children }) => {
         toast.success(`${quantity} ${product.name} added to the cart.`)
     }
     }
+
     const toggleCartItemQuantity = (id, value) => {
         foundProduct = cartItems.find ((item) => item._id == id)
         index = cartItems.findIndex((product) => product._id === id)
@@ -71,17 +68,6 @@ export const StateContext = ({ children }) => {
         setCartItems(newCartItems)
     }
 
-    const incQty = () => {
-        setQty((prev) => prev+1)
-    }
-
-    const decQty = () => {
-        setQty((prev) => {
-            if(prev-1 < 1) return 1
-            return prev-1
-        })
-    }
-
     return (
         <Context.Provider
             value={{
@@ -90,16 +76,11 @@ export const StateContext = ({ children }) => {
                 setShowCart,
                 totalPrice,
                 totalQuantities,
-                qty,
-                incQty,
-                decQty,
                 onAdd,
                 toggleCartItemQuantity,
                 onRemove,
                 currentUser,
                 setCurrentUser,
-                navHeight,
-                setNavHeight
             }}
         >
             { children }
@@ -107,4 +88,4 @@ export const StateContext = ({ children }) => {
     )
 }
 
-export const useStateContext = () => (Context)
+export const useStateContext = () => useContext(Context)

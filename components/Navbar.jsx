@@ -15,7 +15,7 @@ const Navbar = () => {
     </label>
     <input className="hidden" type="checkbox" id="menu-toggle" />
 
-    <div className="hidden lg:flex lg:items-center  lg:w-auto w-full" id="menu">
+    <div className="hidden lg:flex lg:items-center  lg:w-auto w-full">
       <nav>
         <ul className="lg:flex items-center justify-between text-sm font-medium  pt-4 lg:pt-0">
           <li>

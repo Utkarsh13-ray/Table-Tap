@@ -1,14 +1,6 @@
-import Head from 'next/head'
-
 import Landing from './Landing'
 
-
-
-function Home() {
-  return (
-    <>
-      <Landing/>
-    </>
-  )
+function Home(props) {
+  return <Landing/>
 }
 export default Home

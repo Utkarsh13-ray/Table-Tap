@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, FieldValue, updateDoc, increment } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useStateContext } from "../../context/stateContext";
 import toast from 'react-hot-toast';
@@ -16,10 +16,10 @@ const Modal = dynamic(
 
 const Menu = (props) => {
   const router = useRouter()
-  const { menu } = props;
 
   const [modal, setModal] = useState(false);
   const { onAdd, cartItems } = useStateContext();
+  const {menu} = props
 
   useEffect(() => {
     if (modal) document.body.classList.add("overflow-y-hidden");
@@ -41,6 +41,13 @@ const Menu = (props) => {
       toast.error(`Cart is Empty! Click on add`)
     } else setModal(true)
   }
+  
+  const updateOrders = async () => {
+    const ref = doc(db, "Restaurant", "lbQvrfEDf4RRG2FmsywA")
+    await updateDoc(ref, {
+      "totalOrders": increment(1)
+  });
+  }
 
   const placeOrder = () => {
       const usersCollectionRef = collection(db, router.query.slug);
@@ -51,6 +58,7 @@ const Menu = (props) => {
         add();
       });
       setModal(false);
+      updateOrders()
       router.push("/thanks")
   };
 
@@ -83,7 +91,6 @@ export default Menu;
 
 export async function getServerSideProps() {
   const data = await getDocs(collection(db, "Menu"));
-  console.log(data.docs[0].data().name);
   const menu = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return {
