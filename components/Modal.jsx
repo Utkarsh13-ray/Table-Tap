@@ -5,12 +5,13 @@ import { CgSpinner } from "react-icons/cg";
 import OtpInput from "otp-input-react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { useStateContext } from "../context/stateContext";
 import Cart from "../components/Cart"
+import { collection, doc, setDoc } from "firebase/firestore";
 
 
 const Modal = (props) => {
@@ -56,12 +57,18 @@ const Modal = (props) => {
       });
   }
 
+  const addUser = async (res) => {
+    const docRef = doc(db, "users", res.user.uid)
+    const data = {id: res.user.uid, phone: res.user.phoneNumber}
+    await setDoc(docRef, data)
+  }
+
   const onOTPVerify = () => {
     setLoading(true);
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log(res);
+        addUser(res);
         setCurrentUser(res.user);
         setLoading(false);
         toast.success("Login Successful!")
@@ -72,6 +79,8 @@ const Modal = (props) => {
         toast.error("Wrong OTP!")
       });
   }
+
+
   return (
     <div className="h-screen w-screen top-0 left-0 fixed z-10">
       <div

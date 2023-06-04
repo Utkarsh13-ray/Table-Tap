@@ -3,7 +3,7 @@ import Orders from "@/components/Orders";
 import Settings from "@/components/Settings";
 import SidebarElements from "@/components/SidebarElements";
 import Team from "@/components/Team";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdDashboard } from "react-icons/md"
 import { FaThList } from "react-icons/fa"
 import { AiOutlineTeam } from "react-icons/ai"
@@ -13,7 +13,7 @@ import { db } from "@/config/firebase";
 
 
 const Dashboard = (props) => {
-    const {menu, total} = props
+    const {menu, total, users} = props
     const [display, setDisplay] = useState("Dashboard")
   return (
     <>
@@ -27,7 +27,7 @@ const Dashboard = (props) => {
                 </ul>
             </div>
             <div className="w-4/5 bg-white">
-                {display==="Dashboard" && <DashBoard menu={menu} totalCustomers={total[0].totalCustomers} totalOrders={total[0].totalOrders} totalSales={total[0].totalSales}/>}
+                {display==="Dashboard" && <DashBoard menu={menu} totalCustomers={users} totalOrders={total[0].totalOrders} totalSales={total[0].totalSales}/>}
                 {display==="Orders" && <Orders/>}
                 {display==="Team" && <Team/>}
                 {display==="Settings" && <Settings/>}
@@ -44,11 +44,15 @@ export async function getServerSideProps() {
     const menu = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const col = await getDocs(collection(db, "Restaurant"))
     const total = col.docs.map((doc) => ({...doc.data()}))
+    var users = 0
+    const usersData = await getDocs(collection(db, "users"))
+    usersData.docs.map(()=>users++)
   
     return {
       props: {
         menu,
-        total
+        total,
+        users
       },
     };
   }

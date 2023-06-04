@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { useStateContext } from "../context/stateContext";
 
 const Cart = (props) => {
-  const { totalPrice, cartItems } = useStateContext();
+  const { totalPrice, cartItems } = useStateContext()
 
   return (
     <>

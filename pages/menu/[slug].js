@@ -16,9 +16,8 @@ const Modal = dynamic(
 
 const Menu = (props) => {
   const router = useRouter()
-
   const [modal, setModal] = useState(false);
-  const { onAdd, cartItems } = useStateContext();
+  const { onAdd, cartItems, totalPrice } = useStateContext();
   const {menu} = props
 
   useEffect(() => {
@@ -42,15 +41,17 @@ const Menu = (props) => {
     } else setModal(true)
   }
   
-  const updateOrders = async () => {
+  const updateOrders = async (qty) => {
     const ref = doc(db, "Restaurant", "lbQvrfEDf4RRG2FmsywA")
     await updateDoc(ref, {
-      "totalOrders": increment(1)
-  });
+      "totalOrders": increment(1),
+      "totalSales" : increment(totalPrice*qty)
+    });
   }
 
   const placeOrder = () => {
       const usersCollectionRef = collection(db, router.query.slug);
+      const qty = cartItems.length
       cartItems.map((item) => {
         const add = async () => {
           const document = await addDoc(usersCollectionRef, item);
@@ -58,7 +59,7 @@ const Menu = (props) => {
         add();
       });
       setModal(false);
-      updateOrders()
+      updateOrders(qty)
       router.push("/Thank")
   };
 
