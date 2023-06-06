@@ -53,7 +53,7 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales }) => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="h-1/3 w-full flex">
+      <div className="h-1/3 w-full flex mt-10">
         <InfoBox title="Total Orders" info={totalOrders} />
         <InfoBox title="Total Sales" info={totalSales} />
         <InfoBox title="Total Products" info={menu.length} />
@@ -61,47 +61,47 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales }) => {
       </div>
       <div className="h-2/3 w-full flex">
         <div className="w-2/3 flex border-r">
-          <div className="w-4/5 h-4/5 m-auto rounded-lg shadow-2xl border flex">
+          <div className="w-4/5 h-4/5 m-auto rounded-lg loginDiv flex">
             <div className="w-2/5 px-4 py-2">
               <h1 className="text-3xl font-bold">Tables</h1>
               <ul className="my-4">
                 <div
                   onClick={() => handleClick(1)}
                   className={`${
-                    active == 1 && "bg-highlight"
-                  } rounded-lg cursor-pointer`}
+                    active == 1 && "inputDiv"
+                  } rounded-lg cursor-pointer transition-all duration-500`}
                 >
                   <Table number={1} />
                 </div>
                 <div
                   onClick={() => handleClick(2)}
                   className={`${
-                    active == 2 && "bg-highlight"
-                  } rounded-lg cursor-pointer`}
+                    active == 2 && "inputDiv"
+                  } rounded-lg cursor-pointer transition-all duration-500`}
                 >
                   <Table number={2} />
                 </div>
                 <div
                   onClick={() => handleClick(3)}
                   className={`${
-                    active == 3 && "bg-highlight"
-                  } rounded-lg cursor-pointer`}
+                    active == 3 && "inputDiv"
+                  } rounded-lg cursor-pointer transition-all duration-500`}
                 >
                   <Table number={3} />
                 </div>
                 <div
                   onClick={() => handleClick(4)}
                   className={`${
-                    active == 4 && "bg-highlight"
-                  } rounded-lg cursor-pointer`}
+                    active == 4 && "inputDiv"
+                  } rounded-lg cursor-pointer transition-all duration-500`}
                 >
                   <Table number={4} />
                 </div>
                 <div
                   onClick={() => handleClick(5)}
                   className={`${
-                    active == 5 && "bg-highlight"
-                  } rounded-lg cursor-pointer`}
+                    active == 5 && "inputDiv"
+                  } rounded-lg cursor-pointer transition-all duration-500`}
                 >
                   <Table number={5} />
                 </div>
@@ -142,8 +142,8 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales }) => {
           </div>
         </div>
         <div className="w-1/3 flex">
-          <div className="w-4/5 h-4/5 border shadow-2xl m-auto">
-            <h1>Reviews</h1>
+          <div className="w-4/5 h-4/5 loginDiv rounded-lg m-auto">
+            <h1></h1>
             <ul>
               <l1> </l1>
             </ul>

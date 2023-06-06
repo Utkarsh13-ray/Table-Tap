@@ -15,8 +15,6 @@ module.exports = {
         'highlight':"#FAB005"
       }
     }
-      
-    
   },
   plugins: [],
 }

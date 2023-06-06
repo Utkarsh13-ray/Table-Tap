@@ -18,7 +18,7 @@ const Dashboard = (props) => {
   return (
     <>
         <div className={`h-screen w-full flex`}>
-            <div className="w-1/5 z-10 bg-white shadow-xl cursor-pointer">
+            <div className="w-1/5 z-10 bg-[#edf1f4] shadow-xl cursor-pointer">
                 <ul>
                     <SidebarElements setDisplay={setDisplay} title="Dashboard" icon={<MdDashboard/>}/>
                     <SidebarElements setDisplay={setDisplay} title="Orders" icon={<FaThList/>}/>
@@ -26,7 +26,7 @@ const Dashboard = (props) => {
                     <SidebarElements setDisplay={setDisplay} title="Settings" icon={<MdSettings/>}/>
                 </ul>
             </div>
-            <div className="w-4/5 bg-white">
+            <div className="w-4/5 bg-[#edf1f4]">
                 {display==="Dashboard" && <DashBoard menu={menu} totalCustomers={users} totalOrders={total[0].totalOrders} totalSales={total[0].totalSales}/>}
                 {display==="Orders" && <Orders/>}
                 {display==="Team" && <Team/>}

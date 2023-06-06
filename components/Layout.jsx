@@ -3,11 +3,11 @@ import Navbar from "./Navbar"
 
 const Layout = ({children}) => {
   return (
-    <div className=''>
+    <div className='bg-[#edf1f4]'>
       <Head>
-        <title>Resteraunt</title>
+        <title>Restaurant</title>
       </Head>
-      <header className=''>
+      <header>
         <Navbar/>
       </header>
       <main className='m-auto w-full'>
