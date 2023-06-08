@@ -11,7 +11,7 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { useStateContext } from "../context/stateContext";
 import Cart from "../components/Cart"
-import { collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 
 const Modal = (props) => {

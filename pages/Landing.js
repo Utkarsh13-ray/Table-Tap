@@ -5,6 +5,7 @@ import { MdMobileFriendly } from "react-icons/md";
 import { BsFillClockFill } from "react-icons/bs";
 
 export default function Landing() {
+  
   return (
     <>
         <div className="md:block hidden">
@@ -21,7 +22,7 @@ export default function Landing() {
               <div className="text-4xl sm:text-5xl font-light">
                 Favourite Food!
               </div>
-              <Link href={"/menu/Table1"}>
+              <Link href={"/menu/Table1?rest=w8zH00EwE2gk0UNyIlwi4ScOMOh1"}>
                 <div className="my-6 hover:cursor-pointer text-black p-3 w-[18rem] hover:w-[17.8rem] rounded-full text-center text-[20px] hover:text-[19.8px] loginDiv">
                   Menu
                 </div>

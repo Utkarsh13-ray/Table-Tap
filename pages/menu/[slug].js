@@ -16,6 +16,7 @@ const Modal = dynamic(
 
 const Menu = (props) => {
   const router = useRouter()
+  const { rest } = router.query
   const [modal, setModal] = useState(false);
   const { onAdd, cartItems, totalPrice } = useStateContext();
   const {menu} = props
@@ -42,7 +43,7 @@ const Menu = (props) => {
   }
   
   const updateOrders = async (qty) => {
-    const ref = doc(db, "Restaurant", "lbQvrfEDf4RRG2FmsywA")
+    const ref = doc(db, "restaurants", rest)
     await updateDoc(ref, {
       "totalOrders": increment(1),
       "totalSales" : increment(totalPrice*qty)
@@ -50,7 +51,7 @@ const Menu = (props) => {
   }
 
   const placeOrder = () => {
-      const usersCollectionRef = collection(db, router.query.slug);
+      const usersCollectionRef = collection(db, `restaurants/${rest}/${router.query.slug}`);
       const qty = cartItems.length
       cartItems.map((item) => {
         const add = async () => {
@@ -66,19 +67,19 @@ const Menu = (props) => {
   return (
     <>
       {modal && <Modal setModal={setModal} placeOrder={placeOrder} cartItems={cartItems}/>}
-      <div className="flex flex-col">
+      <div className="flex flex-col font-poppins">
         {/* Inside container after navbar */}
-        <div className="container mx-auto max-w-3xl shadow-2xl mt-9 mb-12 rounded border p-10 bg-white ">
+        <div className="container mx-auto max-w-3xl mt-20 mb-20 rounded p-10 loginDiv">
           <Category title="Starters" menu={menu} cat="starter" clickHandler={clickHandler}/>
           <Category title="Main Course" menu={menu} cat="main_course" clickHandler={clickHandler}/>
           <Category title="Desserts" menu={menu} cat="dessert" clickHandler={clickHandler}/>
           <Category title="Chapati" menu={menu} cat="chapati" clickHandler={clickHandler}/>
           <Category title="Salads" menu={menu} cat="salad" clickHandler={clickHandler}/>
         </div>
-        <div className="fixed bottom-2 bg-transparent flex justify-center items-center w-full">
+        <div className="fixed bottom-2 flex justify-center items-center w-full">
             <button
               onClick={orderHandler}
-              className="bg-highlight w-48 text-white px-2 py-1 rounded-md text-center"
+              className="bg-highlight shadow-2xl border w-48 text-black px-2 py-1 rounded-md text-center"
             >
               Place Order
             </button>
@@ -90,8 +91,9 @@ const Menu = (props) => {
 
 export default Menu;
 
-export async function getServerSideProps() {
-  const data = await getDocs(collection(db, "Menu"));
+export async function getServerSideProps(context) {
+  const { rest } = context.query
+  const data = await getDocs(collection(db, `restaurants/${rest}/Menu`));
   const menu = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
   return {

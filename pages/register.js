@@ -1,28 +1,44 @@
 import { useRouter } from 'next/router'
-import { auth } from '../config/firebase';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from '../config/firebase';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import { useStateContext } from '@/context/stateContext';
+import toast from 'react-hot-toast';
 
-const login = () => {
+const register = () => {
   const router = useRouter()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const [name, setName] = useState()
   const { setCurrentUser } = useStateContext()
 
-  const logInWithEmailAndPassword = async (email, password) => {
+
+  const addUser = async (res) => {
+    const docRef = doc(db, "restaurants", res.user.uid)
+    const data = {id: res.user.uid, email, name, totalOrders:0, totalSales:0}
+    await setDoc(docRef, data)
+  }
+
+  const registerWithEmailAndPassword = async (email, password) => {
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password)
+      const res = await createUserWithEmailAndPassword(auth, email, password);
       setCurrentUser(res.user)
-      toast.success("Login Successful!")
+      addUser(res)
       router.push(`/dashboard?rest=${res.user.uid}`)
     } catch (err) {
-      console.error(err)
-      if(err.code==="auth/user-not-found")
-        toast.error("User not found! Try Register Instead!")
-      else if(err.code==="auth/wrong-password")
-        toast.error("Wrong Password!")
+        console.log(err);
+        if(err.code==="auth/email-already-in-use")
+            toast.error("Already Registered! Try Login Instead!")
+        else if(err.code==="auth/weak-password")
+            toast.error("Weak Password!")  
+        else if(err.code==="auth/invalid-email") 
+            toast.error("Invalid Email!")
+        else if(err.code==="auth/missing-password")
+            toast.err("Password Missing!")
+        else if(err.code==="auth/missing-email")
+            toast.error("Email Missing!")
+        else toast.error(err.code)
     }
   };
   return (
@@ -72,6 +88,13 @@ const login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
+            className="text-sm w-full px-4 py-2 rounded inputDiv bg-[#edf1f4] mb-4"
+            type="text"
+            placeholder="Restaurant Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
             className="text-sm w-full px-4 py-2 rounded inputDiv bg-[#edf1f4]"
             type="password"
             placeholder="Password"
@@ -80,7 +103,7 @@ const login = () => {
           />
           <div className="mt-4 flex justify-between text-sm">
             <label className="flex text-black cursor-pointer">
-              <input className="mr-1" type="checkbox" />
+              <input className="mr-1" type="checkbox"/>
               <span>Remember Me</span>
             </label>
             <a
@@ -93,19 +116,19 @@ const login = () => {
           <div className="text-center md:text-left">
             <button
               className="mt-4 bg-black px-4 py-2 text-white font-semibold uppercase rounded text-xs tracking-wider"
-              onClick={() => logInWithEmailAndPassword(email, password)}
+              onClick={() => registerWithEmailAndPassword(email, password)}
               type="submit"
             >
-              Login
+              Register
             </button>
           </div>
           <div className="mt-4 font-semibold text-sm text-black text-center md:text-left">
-            Don't have an account? {" "}
+            Already have an account?{" "}
             <a
               className="text-black font-normal hover:underline hover:underline-offset-4"
-              onClick={()=>router.push("/register")}
+              onClick={()=>router.push("/login")}
             >
-              Register
+              Login
             </a>
           </div>
             </div>
@@ -115,4 +138,4 @@ const login = () => {
   )
 }
 
-export default login
+export default register

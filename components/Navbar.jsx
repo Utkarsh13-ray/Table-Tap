@@ -1,6 +1,16 @@
 import Link from "next/link"
+import { signOut } from "firebase/auth";
+import { useStateContext } from "@/context/stateContext";
+import { auth } from "../config/firebase"
 
 const Navbar = () => {
+  const { currentUser, setCurrentUser } = useStateContext()
+
+  const logout = () => {
+    setCurrentUser(null)
+    signOut(auth);
+  };
+
   return (
     <>
      <header className="bg-[#edf1f4] text-black flex max-w-3xl w-full flex-wrap mx-auto items-center lg:py-0 py-2 fixed left-[50%] translate-x-[-50%]">
@@ -19,24 +29,12 @@ const Navbar = () => {
       <nav>
         <ul className="lg:flex items-center justify-between text-sm font-medium  pt-4 lg:pt-0">
           <li>
-        <Link className="lg:p-4 py-3 px-0 block" href="/login">
-          Login as Resteraunt
-        </Link>
+          {!currentUser && <Link className="lg:p-4 py-3 px-0 block" href="/login">Login as Resteraunt</Link>}
+          {currentUser && <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>logout()}>Logout</Link>}
           </li>
         </ul>
       </nav>
-      <a href="#" className="lg:ml-4 flex items-center justify-start lg:mb-0 mb-4 pointer-cursor" id="userdropdown">
-    
-    </a>
-      <div id="usermenu" className="absolute lg:mt-12 pt-1 z-40 left-0 lg:left-auto lg:right-0 lg:top-0 invisible lg:w-auto w-full">
-        <div className="bg-white shadow-xl lg:px-8 px-6 lg:py-4 pb-4 pt-0 rounded lg:mr-3 rounded-t-none">
-          <a href="/settings" className="pb-2 block text-gray-600 hover:text-gray-900 ignore-body-click">Settings</a>
-          <a href="/logout" className="block text-gray-600 hover:text-gray-900 ignore-body-click">Logout</a>
-        </div>
-      </div>
-
     </div>
-
   </header>
   </>
   )

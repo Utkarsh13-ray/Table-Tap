@@ -4,15 +4,18 @@ import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
-const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales }) => {
+const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales, name }) => {
   const [status, setStatus] = useState(false);
   const [active, setActive] = useState(1);
   const [items, setItems] = useState([])
+  const router = useRouter()
+  const { rest } = router.query
 
   useEffect(() => {
     const temp = async () => {
-      const data = await getDocs(collection(db, "Table1"));
+      const data = await getDocs(collection(db, `restaurants/${rest}/Table1`));
       const info = data.docs.map((doc) => ({ ...doc.data() }));
 
       info.length >= 1 ? setStatus(true) : setStatus(false);
@@ -22,7 +25,8 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales }) => {
   }, []);
 
 
-  const clearCollection = async (path) => {
+  const clearCollection = async (table) => {
+    const path = `restaurants/${rest}/${table}`
     const ref = collection(db, path);
     const snapshot = await getDocs(ref);
     const results = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -43,7 +47,8 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales }) => {
 
   const handleClick = async (number) => {
     const table = "Table" + number;
-    const data = await getDocs(collection(db, table));
+    const path = `restaurants/${rest}/${table}`
+    const data = await getDocs(collection(db, path));
     const info = data.docs.map((doc) => ({ ...doc.data() }));
 
     info.length >= 1 ? setStatus(true) : setStatus(false);
@@ -136,6 +141,11 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales }) => {
                   onClick={() => clearCollection("Table" + active)}
                 >
                   Clear Order
+                </button>
+                <button
+                  className="border border-highlight px-4 py-2 rounded-lg"
+                >
+                  View QR
                 </button>
               </div>
             </div>
