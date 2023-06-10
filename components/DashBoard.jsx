@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 
-const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales, name }) => {
+
+const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales , handleOpenModal}) => {
   const [status, setStatus] = useState(false);
   const [active, setActive] = useState(1);
   const [items, setItems] = useState([])
   const router = useRouter()
   const { rest } = router.query
+  
 
   useEffect(() => {
     const temp = async () => {
@@ -58,6 +60,7 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales, name }) => {
 
   return (
     <div className="flex flex-col h-screen">
+      
       <div className="h-1/3 w-full flex mt-10">
         <InfoBox title="Total Orders" info={totalOrders} />
         <InfoBox title="Total Sales" info={totalSales} />
@@ -144,6 +147,7 @@ const DashBoard = ({ menu, totalCustomers, totalOrders, totalSales, name }) => {
                 </button>
                 <button
                   className="border border-highlight px-4 py-2 rounded-lg"
+                  onClick={()=>handleOpenModal(true, active)}
                 >
                   View QR
                 </button>
