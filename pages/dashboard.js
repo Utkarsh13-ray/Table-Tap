@@ -26,7 +26,7 @@ const dashboard = (props) => {
 
   const handleOpenModal = (Check, number) => {
     setUrl(
-      `http://table-ordering.vercel.app/menu/Table${number}? rest=${currentUser.uid}`
+      `http://table-ordering.vercel.app/menu/Table${number}?rest=${currentUser.uid}`
     );
     setShowIncomeModal(Check);
   };
