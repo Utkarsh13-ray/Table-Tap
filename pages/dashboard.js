@@ -23,6 +23,7 @@ const dashboard = (props) => {
   const { currentUser } = useStateContext();
   const [showIncomeModal, setShowIncomeModal] = useState(false);
   const [url, setUrl] = useState("");
+
   const handleOpenModal = (Check, number) => {
     setUrl(
       `http://localhost:3000/menu/Table${number}? rest=${currentUser.uid}`
@@ -43,17 +44,24 @@ const dashboard = (props) => {
           <div>
             {showIncomeModal && (
               <Popup isOpen={handleOpenModal} onClose={handleOpenModal}>
-                <div className="flex gap-10 flex-col justify-center items-center ">
-                <div className="">
-                    <div id="qr-code" />
-                </div>
-                <button onClick={()=>qrcodeGenerator({
-            value: url,
-            size: "180x180",
-            title: "Title",
-            qrAlt: "QR Code Image",
-            showQrId: "qr-code",
-          })}>Generate</button>
+                <div className="flex gap-10 flex-col justify-center items-center min-h-[300px]">
+                  <div className="w-[180px] h-[180px]">
+                    <div id="qr-code"/>
+                  </div>
+                  <button
+                    onClick={() => {
+                      qrcodeGenerator({
+                        value: url,
+                        size: "180x180",
+                        title: "Title",
+                        qrAlt: "QR Code Image",
+                        showQrId: "qr-code",
+                      });
+                      setUrl("")
+                    }}
+                  >
+                    Generate
+                  </button>
                 </div>
               </Popup>
             )}
