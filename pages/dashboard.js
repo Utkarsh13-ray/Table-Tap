@@ -19,7 +19,7 @@ import QRCode from "react-qr-code";
 const dashboard = (props) => {
   const router = useRouter();
   const { user } = useStateContext()
-  const { menu, restDetails, users } = props;
+  const { menu, restDetails, users, orders } = props;
   const [display, setDisplay] = useState("Dashboard")
   const [showIncomeModal, setShowIncomeModal] = useState(false)
   const [url, setUrl] = useState("http://table-ordering.vercel.app")
@@ -100,6 +100,7 @@ const dashboard = (props) => {
                 totalOrders={restDetails.totalOrders}
                 totalSales={restDetails.totalSales}
                 handleOpenModal={handleOpenModal}
+                orders={orders}
               />
             )}
             {display === "Orders" && <Orders />}
@@ -118,6 +119,7 @@ export async function getServerSideProps(context) {
   const { rest } = context.query;
   if (rest !== undefined) {
     const data = await getDocs(collection(db, `restaurants/${rest}/Menu`));
+    
     const menu = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const docRef = doc(db, "restaurants", rest);
     const docData = await getDoc(docRef);
@@ -130,7 +132,7 @@ export async function getServerSideProps(context) {
       props: {
         menu,
         restDetails,
-        users,
+        users
       },
     };
   }
