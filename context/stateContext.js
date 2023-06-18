@@ -1,16 +1,44 @@
 import { createContext, useContext, useState } from "react";
 import { toast } from "react-hot-toast"
+import { useEffect } from "react"
+import { onAuthStateChanged } from "firebase/auth"
+import { auth } from "../config/firebase"
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const Context = createContext()
 
 export const StateContext = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [user, setUser] = useState(null)
     const [showCart, setShowCart] = useState(false)
     const [cartItems, setCartItems] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalQuantities, setTotalQuantities] = useState(0)
 
     let foundProduct;
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+          console.log("Auth", currentuser);
+          setUser(currentuser);
+        });
+    
+        return () => {
+          unsubscribe();
+        };
+      }, []);
+
+    const logIn = async (email, password) => {
+        console.log("login called")
+        return await signInWithEmailAndPassword(auth, email, password);
+      }
+      const signUp = async (email, password) => {
+        return await createUserWithEmailAndPassword(auth, email, password);
+      }
+      const logOut = async () => {
+        return await signOut(auth);
+      }
+    
+      
 
     const onAdd = (product, quantity) => {
         if(quantity=== 0) {
@@ -80,8 +108,11 @@ export const StateContext = ({ children }) => {
                 onAdd,
                 toggleCartItemQuantity,
                 onRemove,
-                currentUser,
-                setCurrentUser,
+                logIn,
+                signUp,
+                logOut,
+                user,
+                setUser
             }}
         >
             { children }

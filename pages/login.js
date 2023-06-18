@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router'
-import { auth } from '../config/firebase';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useStateContext } from '@/context/stateContext';
 
@@ -9,22 +7,25 @@ const login = () => {
   const router = useRouter()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
-  const { setCurrentUser } = useStateContext()
+
+  const { logIn, user } = useStateContext()
+
+  useEffect(()=>{
+    if(user) router.push(`/dashboard?rest=${user.uid}`)
+  })
 
   const logInWithEmailAndPassword = async (email, password) => {
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password)
-      setCurrentUser(res.user)
+      const res = await logIn(email, password)
       toast.success("Login Successful!")
-      router.push(`/dashboard?rest=${res.user.uid}`)
+      router.push(`/dashboard?rest=${user.uid}`)
     } catch (err) {
       console.error(err)
-      if(err.code==="auth/user-not-found")
-        toast.error("User not found! Try Register Instead!")
-      else if(err.code==="auth/wrong-password")
-        toast.error("Wrong Password!")
+      if(err.code==="auth/user-not-found") toast.error("User not found! Try Register Instead!")
+      else if(err.code==="auth/wrong-password") toast.error("Wrong Password!")
     }
   };
+  
   return (
     <>
        <section className="h-screen font-poppins bg-[#edf1f4] flex flex-col md:flex-row justify-center  md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">

@@ -11,7 +11,7 @@ const register = () => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [name, setName] = useState()
-  const { setCurrentUser } = useStateContext()
+  const { user, signup } = useStateContext()
 
 
   const addUser = async (res) => {

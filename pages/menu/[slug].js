@@ -19,7 +19,7 @@ const Menu = (props) => {
   const { rest } = router.query
   const [modal, setModal] = useState(false);
   const { onAdd, cartItems, totalPrice } = useStateContext();
-  const {menu} = props
+  const { menu } = props
 
   useEffect(() => {
     if (modal) document.body.classList.add("overflow-y-hidden");

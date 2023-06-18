@@ -15,9 +15,9 @@ import { doc, setDoc } from "firebase/firestore";
 
 
 const Modal = (props) => {
+  const { user, setUser } = useStateContext()
   const [loading, setLoading] = useState(false)
   const [showOTP, setShowOTP] = useState(false)
-  const { currentUser, setCurrentUser} = useStateContext()
   const [ph, setPh] = useState()
   const [otp, setOTP] = useState()
 
@@ -57,9 +57,10 @@ const Modal = (props) => {
       });
   }
 
-  const addUser = async (res) => {
-    const docRef = doc(db, "users", res.user.uid)
-    const data = {id: res.user.uid, phone: res.user.phoneNumber}
+  const addUser = async (user) => {
+    const docRef = doc(db, "users", user.uid)
+    const data = {id: user.uid, phone: user.phoneNumber}
+    setUser(user)
     await setDoc(docRef, data)
   }
 
@@ -68,9 +69,8 @@ const Modal = (props) => {
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        addUser(res);
-        setCurrentUser(res.user);
-        setLoading(false);
+        addUser(res.user)
+        setLoading(false)
         toast.success("Login Successful!")
       })
       .catch((err) => {
@@ -115,7 +115,7 @@ const Modal = (props) => {
         <section className=" flex items-center justify-center">
       <div>
 
-        {currentUser ? (
+        {user ? (
           <Cart placeOrder={props.placeOrder}/>
         ) : (
           <div className="w-80 flex flex-col gap-4 rounded-lg p-4">

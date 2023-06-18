@@ -1,14 +1,13 @@
 import Link from "next/link"
-import { signOut } from "firebase/auth";
 import { useStateContext } from "@/context/stateContext";
-import { auth } from "../config/firebase"
+import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const { currentUser, setCurrentUser } = useStateContext()
-
+  const router = useRouter()
+  const { user, logOut } = useStateContext()
   const logout = () => {
-    setCurrentUser(null)
-    signOut(auth);
+    logOut()
+    router.push("/")
   };
 
   return (
@@ -29,8 +28,13 @@ const Navbar = () => {
       <nav>
         <ul className="lg:flex items-center justify-between text-sm font-medium  pt-4 lg:pt-0">
           <li>
-          {!currentUser && <Link className="lg:p-4 py-3 px-0 block" href="/login">Login as Resteraunt</Link>}
-          {currentUser && <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>logout()}>Logout</Link>}
+          {!user && <Link className="lg:p-4 py-3 px-0 block" href="/login">Login as Resteraunt</Link>}
+          {user && (
+            <div className="flex">
+            {user.phoneNumber==null && <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>router. push(`/dashboard?rest=${user.uid}`)}>Dashboard</Link>}
+            <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>logout()}>Logout</Link>
+            </div>
+          )}
           </li>
         </ul>
       </nav>
