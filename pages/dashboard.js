@@ -1,5 +1,5 @@
 import DashBoard from "@/components/DashBoard";
-import Orders from "@/components/Menu";
+import Menu from "@/components/Menu";
 import Settings from "@/components/Settings";
 import SidebarElements from "@/components/SidebarElements";
 import Team from "@/components/Team";
@@ -15,25 +15,36 @@ import { useEffect } from "react";
 import Popup from "../components/popup/Popup";
 import { useStateContext } from "@/context/stateContext";
 import QRCode from "react-qr-code";
+import useSWR from 'swr'
+
+const fetcher = async(url) => {
+  const res = await getDocs(collection(db, url))
+  return res
+}
 
 const dashboard = (props) => {
   const router = useRouter();
   const { user } = useStateContext()
-  const { menu, restDetails, users, orders } = props;
+  const { rest } = router.query
+  const { restDetails, users, orders } = props;
+  const [menu, setMenu] = useState([])
   const [display, setDisplay] = useState("Dashboard")
   const [showIncomeModal, setShowIncomeModal] = useState(false)
   const [url, setUrl] = useState("http://table-ordering.vercel.app")
   const [num, setNum] = useState()
+  const { data } = useSWR(`restaurants/${rest}/Menu`, fetcher, {refreshInterval: 1000})
 
   useEffect(()=>{
     if(!user || router.query.rest===undefined) router.push('/login')
-  })
+  }, [])
+  useEffect(()=>{
+    if(data) setMenu(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+  }, [data])
 
   const handleOpenModal = (check) => {
     setShowIncomeModal(check);
   };
-
-  return (
+    return (
     <>
       {user && (
         <div className="h-screen w-full flex font-poppins">
@@ -96,14 +107,14 @@ const dashboard = (props) => {
             {display === "Dashboard" && (
               <DashBoard
                 menu={menu}
-                totalCustomers={users}
-                totalOrders={restDetails.totalOrders}
-                totalSales={restDetails.totalSales}
                 handleOpenModal={handleOpenModal}
+                totalOrders={restDetails.totalOrders}
+                totalCustomers={users}
+                totalSales={restDetails.totalSales}
                 orders={orders}
               />
             )}
-            {display === "Orders" && <Orders />}
+            {display === "Menu" && <Menu menu={menu}/>}
             {display === "Team" && <Team />}
             {display === "Settings" && <Settings />}
           </div>
@@ -118,19 +129,14 @@ export default dashboard;
 export async function getServerSideProps(context) {
   const { rest } = context.query;
   if (rest !== undefined) {
-    const data = await getDocs(collection(db, `restaurants/${rest}/Menu`));
-    
-    const menu = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    const docRef = doc(db, "restaurants", rest);
-    const docData = await getDoc(docRef);
-    const restDetails = { ...docData.data() };
+    const res = await getDoc(doc(db, "restaurants", rest));
+    const restDetails = { ...res.data() };
     var users = 0;
     const usersData = await getDocs(collection(db, "users"));
     usersData.docs.map(() => users++);
 
     return {
       props: {
-        menu,
         restDetails,
         users
       },

@@ -6,32 +6,29 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Popup from "./popup/Popup";
+import useSWR from 'swr'
 
-const DashBoard = ({
-  menu,
-  totalCustomers,
-  totalOrders,
-  totalSales
-}) => {
+const fetcher = async(url) => {
+  const res = await getDocs(collection(db, url))
+  return res
+}
+
+const DashBoard = ({menu, totalOrders, totalCustomers, totalSales}) => {
   const router = useRouter()
   const { rest } = router.query
   const [viewModal, setViewModal] = useState(false);
   const [orders, setOrders] = useState([])
   const [items, setItems] = useState([])
+  const {data} = useSWR(`restaurants/${rest}/Orders`, fetcher, {refreshInterval:500})
 
   const deleteOrder = async (id) => {
     await deleteDoc(doc(db, `restaurants/${rest}/Orders`, id))
   }
 
   useEffect(()=>{
-    const getOrder = async() => {
-      const ordersData = await getDocs(collection(db, `restaurants/${rest}/Orders`))
-      setOrders(ordersData.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-    }
-    getOrder()
-  }, [deleteOrder])
+    if(data) setOrders((data.docs.map((doc) => ({ id: doc.id, ...doc.data() }))))
+  }, [data])
 
-  
   
   const viewOrder = (active, cartItems) => {
     if(cartItems!==undefined) setItems(cartItems.map((doc) => ({ ...doc })))
@@ -63,7 +60,7 @@ const DashBoard = ({
           <InfoBox title="Total Customers" info={totalCustomers} />
         </div>
         <div className="h-2/3 w-full flex">
-          <div className="w-2/3 flex border-r">
+          <div className="w-1/2 flex border-r">
             <div className="w-4/5 h-4/5 m-auto rounded-lg loginDiv gap-y-2 flex flex-col">
               <h1 className="text-3xl font-bold m-3">Order</h1>
               <div
@@ -90,7 +87,7 @@ const DashBoard = ({
               </div>
             </div>
           </div>
-          <div className="w-1/3 flex">
+          <div className="w-1/2 flex">
             <div className="w-4/5 h-4/5 loginDiv rounded-lg m-auto">
               <h1></h1>
               <ul>

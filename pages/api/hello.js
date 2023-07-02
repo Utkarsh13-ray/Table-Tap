@@ -1,5 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "@/config/firebase";
 
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
+export async function getData(url) {
+  const data = await getDocs(collection(db, url))
+  console.log(data.docs[0])
+  return data.docs.map((doc)=>({id: doc.id, ...doc.data()}))
 }

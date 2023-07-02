@@ -31,7 +31,7 @@ const Navbar = () => {
           {!user && <Link className="lg:p-4 py-3 px-0 block" href="/login">Login as Resteraunt</Link>}
           {user && (
             <div className="flex">
-            {user.phoneNumber==null && <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>router. push(`/dashboard?rest=${user.uid}`)}>Dashboard</Link>}
+            {user.phoneNumber==null && <div className="lg:p-4 py-3 px-0 block" onClick={()=>router. push(`/dashboard?rest=${user.uid}`)}>Dashboard</div>}
             <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>logout()}>Logout</Link>
             </div>
           )}
