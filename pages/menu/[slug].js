@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import Category from "@/components/Category";
 import {useRouter} from "next/router";
 
+
 const Modal = dynamic(
   () => {
     return import("../../components/Modal");

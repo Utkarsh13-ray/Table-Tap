@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "@/config/firebase";
-import { MdAdd } from "react-icons/md"
+import { MdOutlineAdd } from "react-icons/md"
 import useSWR from 'swr'
 
 const fetcher = async(url) => {
@@ -54,9 +54,9 @@ const Category = ({ title, id, cat, clickHandler }) => {
                       ></input>
                       <button
                         type="submit"
-                        className="bg-highlight ml-4 px-2 py-1 rounded-md text-sm flex items-center justify-center"
+                        className="ml-4 px-2 py-1 rounded-md text-sm flex items-center justify-center"
                       >
-                        <MdAdd/>Add
+                        <MdOutlineAdd/>
                       </button>
                     </form>
                   </div>
