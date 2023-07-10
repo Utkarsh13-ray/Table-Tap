@@ -1,10 +1,14 @@
 import Link from "next/link"
 import { useStateContext } from "@/context/stateContext";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const router = useRouter()
   const { user, logOut } = useStateContext()
+  useEffect(()=>{
+    console.log(user)
+  })
   const logout = () => {
     logOut()
     router.push("/")
@@ -32,7 +36,7 @@ const Navbar = () => {
           {user && (
             <div className="flex">
             {user.phoneNumber==null && <div className="lg:p-4 py-3 px-0 block" onClick={()=>router. push(`/dashboard?rest=${user.uid}`)}>Dashboard</div>}
-            <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>logout()}>Logout</Link>
+            <div className="lg:p-4 py-3 px-0 block cursor-pointer" href="/" onClick={()=>logout()}>Logout</div>
             </div>
           )}
           </li>

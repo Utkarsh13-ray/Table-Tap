@@ -5,7 +5,6 @@ import { MdMobileFriendly } from "react-icons/md";
 import { BsFillClockFill } from "react-icons/bs";
 
 export default function Landing() {
-  
   return (
     <>
         <div className="md:block hidden">

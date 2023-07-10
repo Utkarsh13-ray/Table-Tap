@@ -13,14 +13,17 @@ const fetcher = async(url) => {
 const Category = ({ title, id, cat, clickHandler }) => {
   const router = useRouter()
   const [items, setItems] = useState([])
-  const [qty, setQty] = useState()
   const { rest } = router.query
   const { data } = useSWR(`restaurants/${rest}/Menu/${id}/${cat}`, fetcher, {refreshInterval: 500})
+  useEffect(()=>{
+    console.log(items)
+  }, [])
   
   useEffect(()=>{
     if(data) setItems(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
   }, [data])
   
+  const [qty, setQty] = useState(Array(items.length).fill(0))
   return (
     <>
       <div>
@@ -28,7 +31,7 @@ const Category = ({ title, id, cat, clickHandler }) => {
           {title}
         </div>
         <div>
-          {items.map((item) => {
+          {items.map((item, ind) => {
               return (
                 <div className="flex m-2 shadow-sm p-1 rounded-md justify-around border-b" key={item.id}>
                   <div className="w-2/3">
@@ -36,13 +39,17 @@ const Category = ({ title, id, cat, clickHandler }) => {
                   </div>
                   <div className="flex">
                     <div className="text-sm">Quantity</div>
-                    <form onSubmit={clickHandler(item, qty)} className="flex">
+                    <form onSubmit={clickHandler(item, qty[ind])} className="flex">
                       <input
                         type="number"
                         min="1"
                         max="100"
-                        value={qty}
-                        onChange={e=>setQty(e.target.value)}
+                        value={ qty[ind] }
+                        onChange={ e=> {
+                          const newArray = [...qty];
+                          newArray[ind] = e.target.value;
+                          setQty(newArray);
+                        }}
                         className="w-10 inputDiv border rounded-sm ml-4"
                       ></input>
                       <button
