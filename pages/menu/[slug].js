@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { collection, getDocs, addDoc, doc, FieldValue, updateDoc, increment } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useStateContext } from "../../context/stateContext";
 import toast from 'react-hot-toast';
 import Category from "@/components/Category";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 
 const Modal = dynamic(
@@ -67,15 +67,19 @@ const Menu = (props) => {
   return (
     <>
       {modal && <Modal setModal={setModal} placeOrder={placeOrder} cartItems={cartItems}/>}
-      <div className="flex flex-col font-poppins">
+      <div className="flex flex-col font-poppins bg-primary">
         {/* Inside container after navbar */}
-        <div className="container mx-auto max-w-3xl mt-20 mb-20 rounded p-10 loginDiv">
+        <div className="container mx-auto max-w-3xl mt-20 mb-20 rounded p-10 shadow-xl border">
         {menu.map((doc)=><Category title={doc.category} id={doc.id} cat={doc.category} clickHandler={clickHandler}/>)}
         </div>
         <div className="fixed bottom-8 flex justify-center items-center w-full ">
             <button
               onClick={orderHandler}
+<<<<<<< HEAD
               className="bg-highlight shadow-2xl my-2 border w-48 text-black px-2 py-1 rounded-md text-center"
+=======
+              className="bg-secondary shadow-2xl text-white w-48 text-text px-2 py-1 rounded-md text-center"
+>>>>>>> 29399802e064dae3bd7853d1945edd4b46e3385a
             >
               Place Order
             </button>

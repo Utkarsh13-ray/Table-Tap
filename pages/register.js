@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { auth, db } from '../config/firebase';
+import { db } from '../config/firebase';
 import { setDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useStateContext } from '@/context/stateContext';
@@ -41,14 +41,14 @@ const register = () => {
   };
   return (
     <>
-       <section className="h-screen font-poppins bg-[#edf1f4] flex flex-col md:flex-row justify-center  md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
-        <div className="md:w-1/3 relative py-24 bg-[#edf1f4] loginDiv rounded-lg flex justify-center items-center flex-col max-w-sm">
+       <section className="h-screen font-poppins bg-primary flex flex-col md:flex-row justify-center  md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
+        <div className="md:w-1/3 relative py-24 loginDiv rounded-lg flex justify-center items-center flex-col max-w-sm">
             <div className='p-2 rounded-2xl px-12'>
             <div className="text-center md:text-left font-semibold">
             <label className="mr-1">Sign in with</label>
             <button
               type="button"
-              className="mx-1 h-9 w-9 rounded-full bg-white text-black shadow-[0_4px_9px_-4px_#3b71ca]"
+              className="mx-1 h-9 w-9 rounded-full bg-white text-secondary shadow-[0_4px_9px_-4px_#3b71ca]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ const register = () => {
             </button>
             <button
               type="button"
-              className="inlne-block mx-1 h-9 w-9 rounded-full bg-black uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca]"
+              className="inlne-block mx-1 h-9 w-9 rounded-full bg-secondary uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -113,17 +113,17 @@ const register = () => {
           </div>
           <div className="text-center md:text-left">
             <button
-              className="mt-4 bg-black px-4 py-2 text-white font-semibold uppercase rounded text-xs tracking-wider"
+              className="mt-4 bg-secondary px-4 py-2 text-white font-semibold uppercase rounded text-xs tracking-wider"
               onClick={() => registerWithEmailAndPassword(email, password)}
               type="submit"
             >
               Register
             </button>
           </div>
-          <div className="mt-4 font-semibold text-sm text-black text-center md:text-left">
+          <div className="mt-4 text-sm text-black text-center md:text-left">
             Already have an account?{" "}
             <a
-              className="text-black font-normal hover:underline hover:underline-offset-4"
+              className="text-black hover:underline hover:underline-offset-4 hover:text-secondary font-bold cursor-pointer"
               onClick={()=>router.push("/login")}
             >
               Login

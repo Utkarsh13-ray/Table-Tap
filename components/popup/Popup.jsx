@@ -1,4 +1,4 @@
-const Popup = ({ isOpen, onClose, children }) => {
+const Popup = ({ isOpen, onClose, children, Table }) => {
   return (
     <>
       {isOpen && (
@@ -11,8 +11,11 @@ const Popup = ({ isOpen, onClose, children }) => {
               <div className="absolute inset-0  bg-slate-800 opacity-75"/>
             </div>
 
-            <div className="min-h-[500px] inline-block transform overflow-hidden rounded-lg bg-[#edf1f4] px-7 pb-4  text-left align-bottom text-black shadow-xl transition-all sm:my-6 sm:w-full sm:max-w-lg sm:p-6 sm:align-middle">
-              <button className=" mb-4 h-10 w-10 rounded-full text-white bg-red-600" onClick={() => onClose(false)}>X</button>
+            <div className="min-h-[500px] inline-block transform overflow-hidden rounded-lg bg-white px-7 pb-4 align-bottom text-black shadow-xl transition-all sm:my-6 sm:w-full sm:max-w-lg sm:p-6 sm:align-middle">
+            <div className="w-full flex justify-between mb-4">
+              <h1 className="text-2xl text-secondary font-bold">{ Table }</h1>
+              <button className="h-6 w-6 rounded text-white bg-red-600" onClick={() => onClose(false)}>X</button>
+            </div>
               {children}
             </div>
           </div>

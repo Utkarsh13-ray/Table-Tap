@@ -32,6 +32,7 @@ const dashboard = (props) => {
   const [showIncomeModal, setShowIncomeModal] = useState(false)
   const [url, setUrl] = useState("http://table-ordering.vercel.app")
   const [num, setNum] = useState()
+  const [active, setActive] = useState("Dashboard")
   const { data } = useSWR(`restaurants/${rest}/Menu`, fetcher, {refreshInterval: 1000})
 
   useEffect(()=>{
@@ -71,7 +72,11 @@ const dashboard = (props) => {
             )}
           </div>
 
+<<<<<<< HEAD
           <div className="lg:w-1/5 w-1/2 z-10 bg-[#edf1f4] shadow-xl cursor-pointer">
+=======
+          <div className="w-1/5 z-10 bg-accent shadow-xl cursor-pointer">
+>>>>>>> 29399802e064dae3bd7853d1945edd4b46e3385a
             <ul className="">
               <h1 className="px-10 py-2 font-bold text-xl">
                 {restDetails.name}
@@ -80,30 +85,35 @@ const dashboard = (props) => {
                 setDisplay={setDisplay}
                 title="Dashboard"
                 icon={<MdDashboard />}
+                display={display}
               />
               <SidebarElements
                 setDisplay={setDisplay}
                 title="Menu"
                 icon={<FaThList />}
+                display={display}
               />
               <SidebarElements
                 setDisplay={setDisplay}
                 title="Team"
                 icon={<AiOutlineTeam />}
+                display={display}
               />
               <SidebarElements
                 setDisplay={handleOpenModal}
                 title="Generate QR"
                 icon={<AiOutlineTeam />}
+                display={display}
               />
               <SidebarElements
                 setDisplay={setDisplay}
                 title="Settings"
                 icon={<MdSettings />}
+                display={display}
               />
             </ul>
           </div>
-          <div className="w-4/5 bg-[#edf1f4]">
+          <div className="w-4/5 bg-primary">
             {display === "Dashboard" && (
               <DashBoard
                 menu={menu}

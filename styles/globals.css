@@ -4,14 +4,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 
 .loginDiv {
   box-shadow: 15px 15px 20px rgba(0,0,0,0.1);
   transition: all 0.3s ease-in-out;
-  background-color: #8ee4af;
+  background-color: #ffffff;
 }
 .loginDiv:hover {
   box-shadow: 10px 10px 15px rgba(0,0,0,0.1);
@@ -20,4 +20,7 @@ body::-webkit-scrollbar {
 .inputDiv {
   box-shadow: inset 5px 5px 10px rgba(0,0,0,0.1), inset -5px -5px 10px #fff;
 
+}
+.scrollbarhide::-webkit-scrollbar {
+  display: none;
 }
