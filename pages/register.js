@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { auth, db } from '../config/firebase';
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from 'firebase/firestore';
 import { useState } from 'react';
 import { useStateContext } from '@/context/stateContext';
@@ -11,7 +10,7 @@ const register = () => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [name, setName] = useState()
-  const { user, signup } = useStateContext()
+  const { signUp, setUser } = useStateContext()
 
 
   const addUser = async (res) => {
@@ -22,12 +21,11 @@ const register = () => {
 
   const registerWithEmailAndPassword = async (email, password) => {
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      setCurrentUser(res.user)
+      const res = await signUp(email, password);
+      setUser(res.user)
       addUser(res)
       router.push(`/dashboard?rest=${res.user.uid}`)
     } catch (err) {
-        console.log(err);
         if(err.code==="auth/email-already-in-use")
             toast.error("Already Registered! Try Login Instead!")
         else if(err.code==="auth/weak-password")
@@ -38,7 +36,7 @@ const register = () => {
             toast.err("Password Missing!")
         else if(err.code==="auth/missing-email")
             toast.error("Email Missing!")
-        else toast.error(err.code)
+        else console.log(err)
     }
   };
   return (

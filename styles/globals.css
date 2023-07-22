@@ -9,11 +9,12 @@ body::-webkit-scrollbar {
 
 
 .loginDiv {
-  box-shadow: 15px 15px 20px rgba(0,0,0,0.1),  -15px -15px 20px #fffb;
+  box-shadow: 15px 15px 20px rgba(0,0,0,0.1);
   transition: all 0.3s ease-in-out;
+  background-color: #8ee4af;
 }
 .loginDiv:hover {
-  box-shadow: 10px 10px 15px rgba(0,0,0,0.1),  -10px -10px 15px #fffb;
+  box-shadow: 10px 10px 15px rgba(0,0,0,0.1);
 }
 
 .inputDiv {
