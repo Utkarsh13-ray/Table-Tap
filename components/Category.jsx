@@ -22,12 +22,24 @@ const Category = ({ title, id, cat, clickHandler }) => {
   useEffect(()=>{
     if(data) setItems(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
   }, [data])
+
+  function toTitleCase(str) {
+    const titleCase = str
+      .toLowerCase()
+      .split(' ')
+      .map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(' ');
+  
+    return titleCase;
+  }
   
   const [qty, setQty] = useState(Array(items.length).fill(0))
   return (
     <>
       <div>
-        <div className="text-2xl text-center font-medium text-black loginDiv rounded-2xl m-5 p-2 bg-highlight">
+        <div className="text-2xl text-center font-semibold uppercase bg-accent text-secondary shadow rounded-2xl m-5 p-2">
           {title}
         </div>
         <div>
@@ -35,11 +47,16 @@ const Category = ({ title, id, cat, clickHandler }) => {
               return (
                 <div className="flex m-2 shadow-sm p-1 rounded-md justify-around border-b" key={item.id}>
                   <div className="w-2/3">
-                    {item.name} (₹ {item.price})
+                    <div className="text-lg font-semibold">
+                      {toTitleCase(item.name)}
+                    </div>
+                    <div className="text-sm">
+                      {item.desc}
+                    </div>
                   </div>
-                  <div className="flex">
-                    <div className="text-sm">Quantity</div>
-                    <form onSubmit={clickHandler(item, qty[ind])} className="flex">
+                  <div className="flex flex-col mb-1 items-end">
+                    <div className="text-md font-semibold">₹{item.price}</div>
+                    <form onSubmit={clickHandler(item, qty[ind])} className="flex mt-1 border rounded-sm">
                       <input
                         type="number"
                         min="1"
@@ -50,11 +67,11 @@ const Category = ({ title, id, cat, clickHandler }) => {
                           newArray[ind] = e.target.value;
                           setQty(newArray);
                         }}
-                        className="w-10 inputDiv border rounded-sm ml-4"
+                        className="w-8 inputDiv border rounded-sm"
                       ></input>
                       <button
                         type="submit"
-                        className="ml-4 px-2 py-1 rounded-md text-sm flex items-center justify-center"
+                        className="rounded-md text-xl text-secondary flex items-center justify-center"
                       >
                         <MdOutlineAdd/>
                       </button>

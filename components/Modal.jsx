@@ -87,7 +87,7 @@ const Modal = (props) => {
         className="h-screen w-screen top-0 left-0 bg-[#6c6c6ccc] blur-none fixed"
         onClick={() => props.setModal(false)}
       ></div>
-      <div className="bg-white z-20 h-fit px-2 py-2 rounded-lg absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
+      <div className="bg-primary z-20 h-fit px-2 py-2 rounded-lg absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
         <div className="flex justify-end">
           <button
             type="button"
@@ -121,7 +121,7 @@ const Modal = (props) => {
           <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
             {showOTP ? (
               <>
-                <div className="bg-white text-highlight w-fit mx-auto p-4 rounded-full">
+                <div className="bg-secondary text-white w-fit mx-auto p-4 rounded-full">
                   <BsFillShieldLockFill size={40} />
                 </div>
                 <label
@@ -137,11 +137,11 @@ const Modal = (props) => {
                   otpType="number"
                   disabled={false}
                   autoFocus
-                  className="opt-container "
+                  className="opt-container"
                 ></OtpInput>
                 <button
                   onClick={onOTPVerify}
-                  className="bg-highlight w-full flex gap-1 items-center justify-center py-2.5 text-black rounded"
+                  className="bg-secondary w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
                 >
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
@@ -151,7 +151,7 @@ const Modal = (props) => {
               </>
             ) : (
               <>
-                <div className="bg-white text-highlight w-fit mx-auto p-4 rounded-full">
+                <div className="bg-secondary text-accent w-fit mx-auto p-4 rounded-full">
                   <MdTextsms size={40} />
                 </div>
                 <label
@@ -163,7 +163,7 @@ const Modal = (props) => {
                 <PhoneInput country={"in"} value={ph} onChange={setPh} />
                 <button
                   onClick={onSignup}
-                  className="bg-highlight w-full flex gap-1 items-center justify-center py-2.5 text-black rounded"
+                  className="bg-secondary w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
                 >
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />

@@ -4,7 +4,7 @@ import { db } from "@/config/firebase";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { MdDelete } from "react-icons/md"
 import Popup from "./popup/Popup";
 import useSWR from 'swr'
 
@@ -19,6 +19,7 @@ const DashBoard = ({menu, totalOrders, totalCustomers, totalSales}) => {
   const [viewModal, setViewModal] = useState(false);
   const [orders, setOrders] = useState([])
   const [items, setItems] = useState([])
+  const [Table, setTable] = useState("")
   const {data} = useSWR(`restaurants/${rest}/Orders`, fetcher, {refreshInterval:500})
 
   const deleteOrder = async (id) => {
@@ -30,7 +31,12 @@ const DashBoard = ({menu, totalOrders, totalCustomers, totalSales}) => {
   }, [data])
 
   
-  const viewOrder = (active, cartItems) => {
+  const viewOrder = (active, item) => {
+    const cartItems = undefined
+    if(item!==undefined) {
+      cartItems = item.cartItems
+      setTable(item.Table)
+    }
     if(cartItems!==undefined) setItems(cartItems.map((doc) => ({ ...doc })))
     setViewModal(active);
   };
@@ -39,13 +45,15 @@ const DashBoard = ({menu, totalOrders, totalCustomers, totalSales}) => {
     <div>
       <div>
         {viewModal && (
-          <Popup isOpen={viewOrder} onClose={viewOrder}>
+          <Popup isOpen={viewOrder} onClose={viewOrder} Table={Table}>
             <div>
               {items.map((doc)=>(
-                <div className="flex w-full justify-between">
-                  <h1>{doc.name}</h1>
-                  <h1>{doc.quantity}</h1>
-                  <h1>{doc.price}</h1>
+                <div className="px-3 py-1 rounded flex w-full justify-between bg-accent shadow-md">
+                  <div className="flex flex-col items-start">
+                    <h1 className="font-semibold text-lg">{doc.name}</h1>
+                    <h1 className="text-sm">Quantity: {doc.quantity}</h1>
+                  </div>
+                  <h1>₹{doc.price}</h1>
                 </div>
               ))}
             </div>
@@ -61,25 +69,25 @@ const DashBoard = ({menu, totalOrders, totalCustomers, totalSales}) => {
         </div>
         <div className="h-2/3 w-full flex">
           <div className="w-1/2 flex border-r">
-            <div className="w-4/5 h-4/5 m-auto rounded-lg loginDiv gap-y-2 flex flex-col">
-              <h1 className="text-3xl font-bold m-3">Order</h1>
+            <div className="w-4/5 h-4/5 m-auto rounded-lg gap-y-2 flex flex-col border">
+              <h1 className="text-3xl text-secondary font-bold m-3">Orders</h1>
               <div
-                className="text-white py-2 px-7 mx-14 overflow-y-scroll"
+                className="text-secondary py-2 mx-3 scrollbarhide"
               >
                 {orders.map((item) => {
                   return (
                     <div
                       key={item.id}
-                      className="flex rounded-lg bg-black justify-between items-center px-4 py-4 my-3"
+                      className="shadow-md cursor-pointer flex rounded-lg bg-accent justify-between items-center px-4 py-4 my-3"
                     >
-                      <div className="flex items-center  justify-between w-full" onClick={() => viewOrder(true, item.cartItems)}>
-                        <p className="  font-medium uppercase">
+                      <div className="flex items-center justify-between w-full" onClick={() => viewOrder(true, item)}>
+                        <p className="font-medium uppercase">
                           {item.Table}
                         </p>
-                        <span>{item.totalPrice}</span>
+                        <span className="mr-2">₹{item.totalPrice}</span>
                       </div>
-                        <button className=" rounded-full border border-white md:p-1" onClick={()=>deleteOrder(item.id)}>
-                          <RiDeleteBin6Line />
+                        <button className="text-xl" onClick={()=>deleteOrder(item.id)}>
+                          <MdDelete />
                         </button>
                     </div>
                   );

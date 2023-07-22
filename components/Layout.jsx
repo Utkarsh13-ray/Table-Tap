@@ -14,9 +14,9 @@ const Layout = ({children}) => {
       <main className='m-auto w-full'>
         {children}
       </main>
-      <footer>
+      {/* <footer>
         <Footer/>
-      </footer>
+      </footer> */}
     </div>
   )
 }

@@ -3,6 +3,8 @@ import { collection, addDoc, query, where, getDocs } from "firebase/firestore"
 import { db } from "@/config/firebase"
 import { useRouter } from "next/router"
 import MenuViewer from "../components/MenuViewer"
+import Input from "./Input"
+
 
 const Menu = ({menu}) => {
   const router = useRouter()
@@ -13,28 +15,27 @@ const Menu = ({menu}) => {
     const usersCollectionRef = collection(db, `restaurants/${rest}/Menu`)
     const data = {"category" : category.toLowerCase()}
     const document = await addDoc(usersCollectionRef, data)
-    console.log(document)
+    setCategory("")
   }
 
-
+  
   return (
     <>
       <div className='flex flex-col h-full w-full'>
-        {/* upper div */}
-        <div className='flex-1 border-black mt-16'> 
-          <div>
-            <input placeholder="Enter Category" value={category} onChange={e=>setCategory(e.target.value)}/>
-            <button onClick={()=>createCategory()}>Create</button>
+      <div className="w-[90%] mx-auto">
+          <div className="mt-16 flex">
+            <Input placeholder="Create Category" state={category} setState={setCategory}/>
+            <button className="text-secondary hover:text-white border-[3px] hover:bg-secondary transition-all duration-300 border-secondary font-semibold rounded-lg text-sm px-3 text-center" onClick={()=>createCategory()}>
+              Create
+            </button>
           </div>
-          
-        </div>
-        {/* lower div */}
-        <div className='flex-[3_3_0%]  overflow-y-scroll'>
-        {menu.map((doc)=>(
-          <div><MenuViewer title={doc.category} cat={doc.category} id={doc.id}/></div>
-        ))}
-        </div>
       </div>
+          <div className="overflow-y-scroll shadow-xl w-[90%] mx-auto mt-4 rounded-lg scrollbarhide">
+          {menu.map((doc, index)=>(
+            <div><MenuViewer cat={doc.category} id={doc.id} index={index} len={menu.length}/></div>
+          ))}
+          </div>
+        </div>
     </>
   )
 }
