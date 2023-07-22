@@ -77,10 +77,10 @@ const Menu = (props) => {
           <Category title="Chapati" menu={menu} cat="chapati" clickHandler={clickHandler}/>
           <Category title="Salads" menu={menu} cat="salad" clickHandler={clickHandler}/>
         </div>
-        <div className="fixed bottom-2 flex justify-center items-center w-full">
+        <div className="fixed bottom-8 flex justify-center items-center w-full ">
             <button
               onClick={orderHandler}
-              className="bg-highlight shadow-2xl border w-48 text-black px-2 py-1 rounded-md text-center"
+              className="bg-highlight shadow-2xl my-2 border w-48 text-black px-2 py-1 rounded-md text-center"
             >
               Place Order
             </button>

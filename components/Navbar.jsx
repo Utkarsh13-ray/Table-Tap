@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <>
-     <header className="bg-[#edf1f4] text-black flex max-w-3xl w-full flex-wrap mx-auto items-center lg:py-0 py-2 fixed left-[50%] translate-x-[-50%]">
+     <header className="bg-[#edf1f4] text-black flex max-w-4xl w-full flex-wrap mx-auto items-center lg:py-0 py-2 fixed left-[50%] translate-x-[-50%]">
     <div className="flex-1  flex justify-between items-center text-xl">
       <Link className="text-lg font-bold text-black" href="/">
          Table Tap
@@ -28,7 +28,7 @@ const Navbar = () => {
       <nav>
         <ul className="lg:flex items-center justify-between text-sm font-medium  pt-4 lg:pt-0">
           <li>
-          {!user && <Link className="lg:p-4 py-3 px-0 block" href="/login">Login as Resteraunt</Link>}
+          {!user && <Link className="lg:p-4 py-3 px-0 block" href="/login">Login as Restaurant</Link>}
           {user && (
             <div className="flex">
             {user.phoneNumber==null && <Link className="lg:p-4 py-3 px-0 block" href="/" onClick={()=>router. push(`/dashboard?rest=${user.uid}`)}>Dashboard</Link>}

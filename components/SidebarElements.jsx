@@ -7,6 +7,8 @@ const SidebarElements = ({setDisplay, title, icon, handleModel}) => {
       handleModel(true)
     }
   }
+
+  
   return (
     <div onClick={()=>handleClick(title)} className="flex hover:bg-highlight px-10 py-2 my-4 items-center text-lg rounded-xl">
       <div className="flex items-center ">
