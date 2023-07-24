@@ -72,10 +72,14 @@ const Menu = (props) => {
         <div className="container mx-auto max-w-3xl mt-20 mb-20 rounded p-10 shadow-xl border">
         {menu.map((doc)=><Category title={doc.category} id={doc.id} cat={doc.category} clickHandler={clickHandler}/>)}
         </div>
-        <div className="fixed bottom-2 flex justify-center items-center w-full">
+        <div className="fixed bottom-8 flex justify-center items-center w-full ">
             <button
               onClick={orderHandler}
+<<<<<<< HEAD
+              className="bg-highlight shadow-2xl my-2 border w-48 text-black px-2 py-1 rounded-md text-center"
+=======
               className="bg-secondary shadow-2xl text-white w-48 text-text px-2 py-1 rounded-md text-center"
+>>>>>>> 29399802e064dae3bd7853d1945edd4b46e3385a
             >
               Place Order
             </button>

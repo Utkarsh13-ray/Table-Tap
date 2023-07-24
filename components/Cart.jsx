@@ -35,7 +35,11 @@ const Cart = (props) => {
           <div className="text-lg font-bold">Total-₹{totalPrice}</div>
           <button
             onClick={() => props.placeOrder()}
+<<<<<<< HEAD
+            className="p-2 my-2 w-full bg-highlight rounded-md"
+=======
             className="p-2 mt-2 w-full bg-secondary text-white rounded-md"
+>>>>>>> 29399802e064dae3bd7853d1945edd4b46e3385a
           >
             Place Order
           </button>
