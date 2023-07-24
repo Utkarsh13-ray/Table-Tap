@@ -20,6 +20,9 @@ const Menu = ({menu}) => {
 
   
   return (
+<<<<<<< HEAD
+    <div>Menu</div>
+=======
     <>
       <div className='flex flex-col h-full w-full'>
       <div className="w-[90%] mx-auto">
@@ -37,6 +40,7 @@ const Menu = ({menu}) => {
           </div>
         </div>
     </>
+>>>>>>> 29399802e064dae3bd7853d1945edd4b46e3385a
   )
 }
 

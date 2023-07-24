@@ -7,6 +7,8 @@ const SidebarElements = ({display, setDisplay, title, icon, handleModel, active}
       handleModel(true)
     }
   }
+
+  
   return (
     <div onClick={()=>handleClick(title)} className={`${display===title && `bg-secondary text-white border-l-4 border-red-700`} flex px-10 py-2 my-4 items-center text-lg `}>
       <div className="flex items-center ">
