@@ -17,13 +17,8 @@ export const StateContext = ({ children }) => {
     let foundProduct;
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-          setUser(currentuser);
-        });
-    
-        return () => {
-            unsubscribe();
-        };
+        const unsubscribe = onAuthStateChanged(auth, (currentuser) => setUser(currentuser));
+        return () => unsubscribe()
     }, []);
 
     const logIn = async (email, password) => {
@@ -33,7 +28,6 @@ export const StateContext = ({ children }) => {
         return await createUserWithEmailAndPassword(auth, email, password);
     }
     const logOut = async () => {
-        console.log("Logout")
         return await signOut(auth);
     } 
 

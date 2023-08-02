@@ -1,36 +1,36 @@
 import InfoBox from "./InfoBox";
-import { deleteDoc, doc, getDocs, collection } from "firebase/firestore";
+import { deleteDoc, doc, collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { MdDelete } from "react-icons/md"
 import Popup from "./popup/Popup";
-import useSWR from 'swr'
 
-const fetcher = async(url) => {
-  const res = await getDocs(collection(db, url))
-  return res
-}
-
-const DashBoard = ({menu, totalOrders, totalCustomers, totalSales}) => {
+const DashBoard = ({totalProducts, totalOrders, totalCustomers, totalSales}) => {
   const router = useRouter()
   const { rest } = router.query
   const [viewModal, setViewModal] = useState(false);
   const [orders, setOrders] = useState([])
   const [items, setItems] = useState([])
   const [Table, setTable] = useState("")
-  const {data} = useSWR(`restaurants/${rest}/Orders`, fetcher, {refreshInterval:500})
+
+  useEffect(()=>{
+    const q = query(collection(db, `restaurants/${rest}/Orders`))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const cities = [];
+      querySnapshot.forEach((doc) => {
+        cities.push({id:doc.id, ...doc.data()});
+      });
+      setOrders(cities);
+    });
+
+    return () => unsubscribe()
+  }, [])
 
   const deleteOrder = async (id) => {
     await deleteDoc(doc(db, `restaurants/${rest}/Orders`, id))
   }
 
-  useEffect(()=>{
-    if(data) setOrders((data.docs.map((doc) => ({ id: doc.id, ...doc.data() }))))
-  }, [data])
-
-  
   const viewOrder = (active, item) => {
     const cartItems = undefined
     if(item!==undefined) {
@@ -64,7 +64,7 @@ const DashBoard = ({menu, totalOrders, totalCustomers, totalSales}) => {
         <div className="h-1/3 w-full flex mt-10">
           <InfoBox title="Total Orders" info={totalOrders} />
           <InfoBox title="Total Sales" info={totalSales} />
-          <InfoBox title="Total Products" info={menu.length} />
+          <InfoBox title="Total Products" info={totalProducts} />
           <InfoBox title="Total Customers" info={totalCustomers} />
         </div>
         <div className="h-2/3 w-full flex">

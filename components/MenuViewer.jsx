@@ -1,19 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { query, collection, where, getDocs, addDoc, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { query, collection, where, getDocs, addDoc, deleteDoc, doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/config/firebase";
-import useSWR from "swr";
 import Input from "./Input";
 import { MdDelete } from "react-icons/md"
 import { MdEdit } from "react-icons/md"
 import { GrDocumentUpdate } from "react-icons/gr"
 import { IoIosArrowDropupCircle } from "react-icons/io"
 import { MdAddBox } from "react-icons/md"
-
-const fetcher = async (url) => {
-  const res = await getDocs(collection(db, url));
-  return res;
-};
 
 const MenuViewer = ({ id, cat, len, index}) => {
   const router = useRouter();
@@ -26,10 +20,18 @@ const MenuViewer = ({ id, cat, len, index}) => {
   const [newDesc, setNewDesc] = useState("");
   const [newPrice, setNewPrice] = useState("");
   
+  useEffect(()=>{
+    const q = query(collection(db, `restaurants/${rest}/Menu/${id}/${cat}`))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const arr = []
+      querySnapshot.forEach((doc) => {
+        arr.push({ id:doc.id, ...doc.data() })
+      })
+      setItems(arr);
+    });
 
-  const { data } = useSWR(`restaurants/${rest}/Menu/${id}/${cat}`, fetcher, {
-    refreshInterval: 500,
-  });
+    return () => unsubscribe()
+  }, [])
 
   const toggleEdit = (ind) => {
     const newArray = [...edit];
@@ -76,10 +78,9 @@ const MenuViewer = ({ id, cat, len, index}) => {
     setNewPrice("")
     toggleEdit(ind)
   }
+  useEffect(()=>{
 
-  useEffect(() => {
-    if (data) setItems(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-  }, [data]);
+  }, [addItem, deleteItem, deleteCategory, updateItem])
 
   function toTitleCase(str) {
     const titleCase = str

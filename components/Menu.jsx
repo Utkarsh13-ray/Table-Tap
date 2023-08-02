@@ -1,14 +1,15 @@
-import { useState } from "react"
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore"
+import { useState, useEffect } from "react"
+import { collection, addDoc, query, where, getDocs, onSnapshot } from "firebase/firestore"
 import { db } from "@/config/firebase"
 import { useRouter } from "next/router"
 import MenuViewer from "../components/MenuViewer"
 import Input from "./Input"
 
 
-const Menu = ({menu}) => {
+const Menu = () => {
   const router = useRouter()
   const { rest } = router.query
+  const [menu, setMenu] = useState([])
   const [category, setCategory] = useState("")
 
   const createCategory = async() => {
@@ -18,7 +19,22 @@ const Menu = ({menu}) => {
     setCategory("")
   }
 
-  
+  useEffect(()=>{
+  }, [menu])
+
+  useEffect(()=>{
+    const q = query(collection(db, `restaurants/${rest}/Menu`))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const arr = []
+      querySnapshot.forEach((doc) => {
+        arr.push({ id:doc.id, ...doc.data() })
+      })
+      setMenu(arr);
+    });
+
+    return () => unsubscribe()
+  }, [])
+
   return (
     <>
       <div className='flex flex-col h-full w-full'>

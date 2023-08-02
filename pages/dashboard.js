@@ -8,19 +8,13 @@ import { MdDashboard } from "react-icons/md";
 import { FaThList } from "react-icons/fa";
 import { AiOutlineTeam } from "react-icons/ai";
 import { MdSettings } from "react-icons/md";
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, onSnapshot, query } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Popup from "../components/popup/Popup";
 import { useStateContext } from "@/context/stateContext";
 import QRCode from "react-qr-code";
-import useSWR from 'swr'
-
-const fetcher = async(url) => {
-  const res = await getDocs(collection(db, url))
-  return res
-}
 
 const dashboard = (props) => {
   const router = useRouter();
@@ -33,14 +27,12 @@ const dashboard = (props) => {
   const [url, setUrl] = useState("http://table-ordering.vercel.app")
   const [num, setNum] = useState()
   const [active, setActive] = useState("Dashboard")
-  const { data } = useSWR(`restaurants/${rest}/Menu`, fetcher, {refreshInterval: 1000})
+
+
 
   useEffect(()=>{
     if(!user || router.query.rest===undefined) router.push('/login')
   }, [])
-  useEffect(()=>{
-    if(data) setMenu(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-  }, [data])
 
   const handleOpenModal = (check) => {
     setShowIncomeModal(check);
@@ -112,7 +104,7 @@ const dashboard = (props) => {
           <div className="w-4/5 bg-primary">
             {display === "Dashboard" && (
               <DashBoard
-                menu={menu}
+                // totalProducts={menu.length}
                 handleOpenModal={handleOpenModal}
                 totalOrders={restDetails.totalOrders}
                 totalCustomers={users}
