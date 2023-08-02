@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-// import axios from "axios";
 import MUIDataTable from "mui-datatables";
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,12 +11,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { db } from "@/config/firebase";
-import {  collection, getDocs, addDoc, deleteDoc, doc, updateDoc ,onSnapshot } from "firebase/firestore";
+import {  collection, getDocs, addDoc, deleteDoc, doc, updateDoc, onSnapshot } from "firebase/firestore";
 
 
 
 const Team = () => {
-
     const [teamdata, setTeamData] = useState([]);
     const router = useRouter();
     const { rest } = router.query;
@@ -49,8 +47,8 @@ const Team = () => {
 
     ]
    
-    const [getitem,setGetitem]=React.useState(0);
-    const [addnew,setAddnew]=React.useState(false);
+    const [getitem, setGetitem] = useState(0);
+    const [addnew, setAddnew]= useState(false);
     const CustomToolbar = () => {
       return(
          <>
@@ -66,32 +64,26 @@ const Team = () => {
     }
   
     useEffect(() => {
-         
       const getData = async () => {
         const data = await getDocs(collection(db, `restaurants/${rest}/Team`))
-                const temp = data.docs.map((doc) => {
-                    console.log(doc.data().uid);
-                        return { ...doc.data(), 'icon' : <div className="flex gap-4"><DriveFileRenameOutlineIcon className="cursor-pointer" onClick={()=>{handleOpen(doc)}} /><DeleteIcon className="cursor-pointer" onClick={()=>{handleDelete(doc.id)}}/></div> }
-                    
-                })
-                setTeamData(temp)
+        const temp = data.docs.map((doc) => {
+          console.log(doc.data().uid);
+          return { ...doc.data(), 'icon' : <div className="flex gap-4"><DriveFileRenameOutlineIcon className="cursor-pointer" onClick={()=>{handleOpen(doc)}} /><DeleteIcon className="cursor-pointer" onClick={()=>{handleDelete(doc.id)}}/></div> } })
+          setTeamData(temp)
      
       }
-      
       getData();
-        // console.log(teamdata)
-   
     }, [getitem]);
-    const [open, setOpen] = React.useState(false);
-    const [name,setName]=React.useState();
-    const [id,setId]=React.useState();
-    const [designation,setDesignation]=React.useState();
-    const [joining,setJoining]=React.useState();
-    const [salary,setSalary]=React.useState();
-    const [phone,setPhone]=React.useState();
+
+    const [open, setOpen] = useState(false);
+    const [name, setName]= useState();
+    const [id, setId] = useState();
+    const [designation, setDesignation] = useState();
+    const [joining, setJoining] = useState();
+    const [salary, setSalary] = useState();
+    const [phone, setPhone] = useState();
     
     const handleOpen = (doc) => {
-
         setId(doc.id)
         setName(doc.name);
         setDesignation(doc.designation);
@@ -136,9 +128,8 @@ const Team = () => {
 
     }
     const  AddRow= async()=>{
-
-       
-       await addDoc(collection(db, `restaurants/${rest}/Team`), { name: name,
+       await addDoc(collection(db, `restaurants/${rest}/Team`), { 
+          name: name,
           designation: designation,
           joining: joining,
           salary:salary,
@@ -147,7 +138,6 @@ const Team = () => {
    
         handleClose();
         setGetitem(1^getitem);
-            // console.log(res.data.json); 
     }
   
     const  handleDelete= async(element_id)=>{
@@ -160,20 +150,19 @@ const Team = () => {
   
     return (
         <>   
-                <MUIDataTable
-              
-                columns={columns}
-                data={teamdata}
-                options={options}
-                />
-                 <Dialog open={open} onClose={handleClose} maxWidth='sm' fullWidth={true}>
-        <DialogTitle>Edit Details</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Name
-          </DialogContentText>
-          <TextField
-            autoFocus
+          <MUIDataTable
+              columns={columns}
+              data={teamdata}
+              options={options}
+          />
+            <Dialog open={open} onClose={handleClose} maxWidth='sm' fullWidth={true}>
+            <DialogTitle>Edit Details</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Name
+              </DialogContentText>
+              <TextField
+                  autoFocus
             margin="dense"
             id="name"
             type="text"
@@ -254,13 +243,6 @@ const Team = () => {
         </DialogActions>
       </Dialog>
            </>
-  
-
     )
-
 }
-
-
-
-
 export default Team;
