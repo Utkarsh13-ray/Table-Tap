@@ -61,16 +61,22 @@ const DashBoard = ({totalProducts, totalOrders, totalCustomers, totalSales}) => 
         )}
       </div>
       <div className="flex flex-col h-screen">
-        <div className="h-1/3 w-full flex mt-10">
+        <div className="w-full flex mt-10 flex-col lg:flex-row  lg:h-1/3 h-1/2 items-center lg:items-stretch ">
           <InfoBox title="Total Orders" info={totalOrders} />
           <InfoBox title="Total Sales" info={totalSales} />
           <InfoBox title="Total Products" info={totalProducts} />
           <InfoBox title="Total Customers" info={totalCustomers} />
         </div>
         <div className="h-2/3 w-full flex">
+<<<<<<< HEAD
+          <div className="w-2/3 flex border-r">
+            <div className="w-4/5 h-4/5 m-auto rounded-lg loginDiv gap-y-2 flex flex-col">
+              <h1 className="text-3xl font-bold m-3">Order</h1>
+=======
           <div className="w-1/2 flex border-r">
             <div className="w-4/5 h-4/5 m-auto rounded-lg gap-y-2 flex flex-col border">
               <h1 className="text-3xl text-secondary font-bold m-3">Orders</h1>
+>>>>>>> 29399802e064dae3bd7853d1945edd4b46e3385a
               <div
                 className="text-secondary py-2 mx-3 scrollbarhide"
               >
@@ -95,11 +101,11 @@ const DashBoard = ({totalProducts, totalOrders, totalCustomers, totalSales}) => 
               </div>
             </div>
           </div>
-          <div className="w-1/2 flex">
+          <div className="w-1/3 flex">
             <div className="w-4/5 h-4/5 loginDiv rounded-lg m-auto">
               <h1></h1>
               <ul>
-                <l1> </l1>
+                <li>1 </li>
               </ul>
             </div>
           </div>

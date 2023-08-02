@@ -40,7 +40,7 @@ const dashboard = (props) => {
     return (
     <>
       {user && (
-        <div className="h-screen w-full flex font-poppins">
+        <div className="h-screen w-full flex font-poppins ">
           <div>
             {showIncomeModal && (
               <Popup isOpen={handleOpenModal} onClose={handleOpenModal}>
@@ -64,7 +64,11 @@ const dashboard = (props) => {
             )}
           </div>
 
+<<<<<<< HEAD
+          <div className="lg:w-1/5 w-1/2 z-10 bg-[#edf1f4] shadow-xl cursor-pointer">
+=======
           <div className="w-1/5 z-10 bg-accent shadow-xl cursor-pointer">
+>>>>>>> 29399802e064dae3bd7853d1945edd4b46e3385a
             <ul className="">
               <h1 className="px-10 py-2 font-bold text-xl">
                 {restDetails.name}
