@@ -56,7 +56,7 @@ const dashboard = (props) => {
                     </div>
                   </div>
                   <input placeholder="Enter Table Number" type="number" value={num} onChange={e => setNum(e.target.value)}/>
-                  <button onClick={() => setUrl(`http://table-ordering.vercel.app/menu/Table${num}?rest=${user.uid}`)}>
+                  <button onClick={() => setUrl(`https://table-ordering-f9s2.vercel.app/menu/Table${num}?rest=${user.uid}`)}>
                     Generate
                   </button>
                 </div>
