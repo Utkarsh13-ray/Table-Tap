@@ -1,4 +1,3 @@
-import Service from "@/components/Service";
 import Link from "next/link";
 import { ImSpoonKnife } from "react-icons/im";
 import { MdMobileFriendly } from "react-icons/md";
