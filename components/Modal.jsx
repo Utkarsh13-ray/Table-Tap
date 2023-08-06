@@ -12,14 +12,17 @@ import { useState } from "react";
 import { useStateContext } from "../context/stateContext";
 import Cart from "../components/Cart"
 import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router"
 
 
 const Modal = (props) => {
+  const router = useRouter()
   const { user, setUser } = useStateContext()
   const [loading, setLoading] = useState(false)
   const [showOTP, setShowOTP] = useState(false)
   const [ph, setPh] = useState()
   const [otp, setOTP] = useState()
+  const { rest } = router.query
 
   const onCaptchVerify = () => {
     if (!window.recaptchaVerifier) {
@@ -59,8 +62,10 @@ const Modal = (props) => {
 
   const addUser = async (user) => {
     const docRef = doc(db, "users", user.uid)
+    const docRefRest = doc(db, `restaurants/${rest}/users`, user.uid)
     const data = {id: user.uid, phone: user.phoneNumber}
     setUser(user)
+    await setDoc(docRefRest, data)
     await setDoc(docRef, data)
   }
 

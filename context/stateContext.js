@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast"
 import { useEffect } from "react"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "../config/firebase"
-import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 const Context = createContext()
 
@@ -30,6 +30,15 @@ export const StateContext = ({ children }) => {
     const logOut = async () => {
         return await signOut(auth);
     } 
+    const sendPasswordReset = async (email) => {
+        try {
+          await sendPasswordResetEmail(auth, email);
+          alert("Password reset link sent!");
+        } catch (err) {
+          console.error(err);
+          alert(err.message);
+        }
+      };
 
     const onAdd = (product, quantity) => {
         if(quantity=== 0) {
@@ -85,7 +94,8 @@ export const StateContext = ({ children }) => {
                 signUp,
                 logOut,
                 user,
-                setUser
+                setUser,
+                sendPasswordReset
             }}
         >
             { children }

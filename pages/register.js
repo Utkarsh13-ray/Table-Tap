@@ -15,7 +15,7 @@ const register = () => {
 
   const addUser = async (res) => {
     const docRef = doc(db, "restaurants", res.user.uid)
-    const data = {id: res.user.uid, email, name, totalOrders:0, totalSales:0}
+    const data = {id: res.user.uid, email, name, totalOrders:0, totalSales:0, totalProducts: 0}
     await setDoc(docRef, data)
   }
 

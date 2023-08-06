@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { query, collection, where, getDocs, addDoc, deleteDoc, doc, updateDoc, onSnapshot } from "firebase/firestore";
+import { query, collection, where, getDocs, addDoc, deleteDoc, doc, updateDoc, onSnapshot, increment } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import Input from "./Input";
 import { MdDelete } from "react-icons/md"
@@ -39,6 +39,19 @@ const MenuViewer = ({ id, cat, len, index}) => {
     setEdit(newArray);
   }
 
+  const incProductsCount = async () => {
+    const ref = doc(db, `restaurants`, rest)
+    await updateDoc(ref, {
+      "totalProducts" : increment(1)
+    });
+  }
+  const decProductsCount = async () => {
+    const ref = doc(db, `restaurants`, rest)
+    await updateDoc(ref, {
+      "totalProducts" : increment(-1)
+    });
+  }
+
   const addItem = async () => {
     const q = query(
       collection(db, `restaurants/${rest}/Menu`),
@@ -47,6 +60,7 @@ const MenuViewer = ({ id, cat, len, index}) => {
     const querySnapshot = await getDocs(q);
     const usersCollectionRef = collection(db,`restaurants/${rest}/Menu/${querySnapshot.docs[0].id}/${cat}`);
     await addDoc(usersCollectionRef, { name, price, desc });
+    incProductsCount()
     setName("")
     setPrice("")
     setDesc("")
@@ -56,6 +70,7 @@ const MenuViewer = ({ id, cat, len, index}) => {
     const q = query(collection(db, `restaurants/${rest}/Menu`),where("category", "==", cat));
     const querySnapshot = await getDocs(q);
     await deleteDoc(doc(db, `restaurants/${rest}/Menu/${querySnapshot.docs[0].id}/${cat}`, id));
+    decProductsCount()
   }
 
   const deleteCategory = async (cat) => {

@@ -1,8 +1,4 @@
 import Link from "next/link";
-import { ImSpoonKnife } from "react-icons/im";
-import { MdMobileFriendly } from "react-icons/md";
-import { BsFillClockFill } from "react-icons/bs";
-
 export default function Landing() {
   return (
     <>
@@ -22,7 +18,7 @@ export default function Landing() {
               <div className="text-md sm:text-md mt-4">
               Say goodbye to waiting in long queues and struggling to catch the attention of busy servers!
               </div>
-              <Link href={"/menu/Table1?rest=w8zH00EwE2gk0UNyIlwi4ScOMOh1"}>
+              <Link href={"/menu/Table1?rest=JJgkmjhus3gsn7CINixrX4NNKxx2"}>
                 <div className="text-secondary text-xl text-center my-24 mx-auto hover:cursor-pointer font-bold p-3 w-[18rem] rounded-xl border-[3px] border-secondary hover:bg-secondary hover:text-white transition-all duration-300">
                   Menu
                 </div>

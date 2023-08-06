@@ -8,7 +8,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaThList } from "react-icons/fa";
 import { AiOutlineTeam } from "react-icons/ai";
 import { MdSettings } from "react-icons/md";
-import { collection, getDocs, getDoc, doc, onSnapshot, query } from "firebase/firestore";
+import { collection, getDocs, doc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -16,22 +16,44 @@ import Popup from "../components/popup/Popup";
 import { useStateContext } from "@/context/stateContext";
 import QRCode from "react-qr-code";
 
-const dashboard = (props) => {
+const dashboard = () => {
   const router = useRouter();
   const { user } = useStateContext()
-  const { rest } = router.query
-  const { restDetails, users, orders } = props;
   const [menu, setMenu] = useState([])
   const [display, setDisplay] = useState("Dashboard")
   const [showIncomeModal, setShowIncomeModal] = useState(false)
   const [url, setUrl] = useState("http://table-ordering.vercel.app")
   const [num, setNum] = useState()
-  const [active, setActive] = useState("Dashboard")
+  const [totalCustomers, setTotalCustomers] = useState(0)
+  const [restDetails, setRestDetails] = useState([])
+  const { rest } = router.query
 
 
 
   useEffect(()=>{
     if(!user || router.query.rest===undefined) router.push('/login')
+  }, [])
+
+  useEffect(()=>{
+    const q = query(collection(db, `restaurants/${rest}/users`))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const users = 0
+      querySnapshot.forEach(() => {
+        users++
+      });
+      setTotalCustomers(users)
+    });
+
+    return () => unsubscribe()
+  }, [])
+
+  useEffect(()=>{
+    const q = query(collection(db, `restaurants`), where("id", "==", `${rest}`))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setRestDetails({ ...querySnapshot.docs[0].data() })
+    });
+
+    return () => unsubscribe()
   }, [])
 
   const handleOpenModal = (check) => {
@@ -103,12 +125,11 @@ const dashboard = (props) => {
           <div className="w-4/5 bg-primary">
             {display === "Dashboard" && (
               <DashBoard
-                // totalProducts={menu.length}
+                totalProducts={restDetails.totalProducts}
                 handleOpenModal={handleOpenModal}
                 totalOrders={restDetails.totalOrders}
-                totalCustomers={users}
+                totalCustomers={totalCustomers}
                 totalSales={restDetails.totalSales}
-                orders={orders}
               />
             )}
             {display === "Menu" && <Menu menu={menu}/>}
@@ -122,24 +143,3 @@ const dashboard = (props) => {
 };
 
 export default dashboard;
-
-export async function getServerSideProps(context) {
-  const { rest } = context.query;
-  if (rest !== undefined) {
-    const res = await getDoc(doc(db, "restaurants", rest));
-    const restDetails = { ...res.data() };
-    var users = 0;
-    const usersData = await getDocs(collection(db, "users"));
-    usersData.docs.map(() => users++);
-
-    return {
-      props: {
-        restDetails,
-        users
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
