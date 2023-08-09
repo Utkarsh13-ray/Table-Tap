@@ -15,6 +15,7 @@ const Category = ({ title, id, cat, clickHandler }) => {
   const [items, setItems] = useState([])
   const { rest } = router.query
   const { data } = useSWR(`restaurants/${rest}/Menu/${id}/${cat}`, fetcher, {refreshInterval: 500})
+  
   useEffect(()=>{
     console.log(items)
   }, [])

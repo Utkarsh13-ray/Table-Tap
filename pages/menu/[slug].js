@@ -30,9 +30,12 @@ const Menu = (props) => {
   const clickHandler = (item, qty) => {
     return e => {
         e.preventDefault();
-        const enteredAmt = +qty;
+        let enteredAmt;
+        if(qty===NaN || qty===undefined) enteredAmt = 0
+        else enteredAmt = qty
+
         onAdd(item, enteredAmt);
-    }
+      }
   };
 
   const orderHandler = () => {
