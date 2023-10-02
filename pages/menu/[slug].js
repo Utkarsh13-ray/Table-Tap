@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { collection, getDocs, addDoc, doc, updateDoc, increment } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, updateDoc, increment, query, where } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { useStateContext } from "../../context/stateContext";
 import toast from 'react-hot-toast';
@@ -19,7 +19,7 @@ const Menu = (props) => {
   const router = useRouter()
   const { rest, slug } = router.query
   const [modal, setModal] = useState(false);
-  const { onAdd, cartItems, totalPrice } = useStateContext();
+  const { onAdd, cartItems, totalPrice, setCartItems } = useStateContext();
   const { menu } = props
 
   useEffect(() => {
@@ -30,9 +30,9 @@ const Menu = (props) => {
   const clickHandler = (item, qty) => {
     return e => {
         e.preventDefault();
-        let enteredAmt;
+        let enteredAmt = 0;
         if(qty===NaN || qty===undefined) enteredAmt = 0
-        else enteredAmt = qty
+        else enteredAmt = +qty
 
         onAdd(item, enteredAmt);
       }
@@ -60,7 +60,19 @@ const Menu = (props) => {
         "cartItems" : cartItems,
         "totalPrice": totalPrice
       }
-      const document = await addDoc(usersCollectionRef, data);
+      const q = query(usersCollectionRef, where("Table", "==", slug))
+      const d = await getDocs(q)
+      if(d.docs.length===0) await addDoc(usersCollectionRef, data);
+      else {
+        const x = [...d.docs[0].data().cartItems, ...cartItems]
+        var temp = cartItems.reduce((acc, curr) => acc + curr.price*curr.quantity, 0)
+        console.log(temp)
+        await updateDoc(doc(db, `restaurants/${rest}/Orders`, d.docs[0].id), {
+          "cartItems" : x,
+          "totalPrice" : increment(temp)
+        });
+      }
+      setCartItems([])
       setModal(false);
       updateOrders(qty)
       router.push("/Thank")

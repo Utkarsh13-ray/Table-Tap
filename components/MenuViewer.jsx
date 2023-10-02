@@ -16,9 +16,9 @@ const MenuViewer = ({ id, cat, len, index}) => {
   const [name, setName] = useState();
   const [price, setPrice] = useState();
   const [desc, setDesc] = useState();
-  const [newName, setNewName] = useState("");
-  const [newDesc, setNewDesc] = useState("");
-  const [newPrice, setNewPrice] = useState("");
+  const [newName, setNewName] = useState();
+  const [newDesc, setNewDesc] = useState();
+  const [newPrice, setNewPrice] = useState();
   
   useEffect(()=>{
     const q = query(collection(db, `restaurants/${rest}/Menu/${id}/${cat}`))
@@ -61,9 +61,9 @@ const MenuViewer = ({ id, cat, len, index}) => {
     const usersCollectionRef = collection(db,`restaurants/${rest}/Menu/${querySnapshot.docs[0].id}/${cat}`);
     await addDoc(usersCollectionRef, { name, price, desc });
     incProductsCount()
-    setName("")
-    setPrice("")
-    setDesc("")
+    setName()
+    setPrice()
+    setDesc()
   };
 
   const deleteItem = async (cat, id) => {

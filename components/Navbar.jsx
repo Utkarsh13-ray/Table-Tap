@@ -6,9 +6,6 @@ import { useEffect } from "react";
 const Navbar = () => {
   const router = useRouter()
   const { user, logOut } = useStateContext()
-  useEffect(()=>{
-    console.log(user)
-  })
   const logout = () => {
     logOut()
     router.push("/")

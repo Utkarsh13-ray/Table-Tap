@@ -1,21 +1,19 @@
 import { createContext, useContext, useState } from "react";
 import { toast } from "react-hot-toast"
 import { useEffect } from "react"
-import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "../config/firebase"
-import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset } from "firebase/auth";
 
 const Context = createContext()
 
 export const StateContext = ({ children }) => {
-    const [user, setUser] = useState(null)
-    const [showCart, setShowCart] = useState(false)
-    const [cartItems, setCartItems] = useState([])
-    const [totalPrice, setTotalPrice] = useState(0)
-    const [totalQuantities, setTotalQuantities] = useState(0)
+    const [user, setUser] = useState(null);
+    const [showCart, setShowCart] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalQuantities, setTotalQuantities] = useState(0);
 
-    let foundProduct;
-
+    // Authentication
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentuser) => setUser(currentuser));
         return () => unsubscribe()
@@ -30,16 +28,18 @@ export const StateContext = ({ children }) => {
     const logOut = async () => {
         return await signOut(auth);
     } 
-    const sendPasswordReset = async (email) => {
-        try {
-          await sendPasswordResetEmail(auth, email);
-          alert("Password reset link sent!");
-        } catch (err) {
-          console.error(err);
-          alert(err.message);
-        }
-      };
+    const passwordReset = async (email) => {
+        return await sendPasswordResetEmail(auth, email, { url: "http://localhost:3000/login"});
+      }
+    
+    const confirmThePasswordReset = async (oobCode, newPassword) => {
+        if(!oobCode && !newPassword) return;
+        return await confirmPasswordReset(auth, oobCode, newPassword)
+    }
 
+
+    //Menu 
+    let foundProduct;
     const onAdd = (product, quantity) => {
         if(quantity=== 0) {
             toast.error("Quantity should be atleast 1")
@@ -95,7 +95,8 @@ export const StateContext = ({ children }) => {
                 logOut,
                 user,
                 setUser,
-                sendPasswordReset
+                passwordReset,
+                confirmThePasswordReset
             }}
         >
             { children }
