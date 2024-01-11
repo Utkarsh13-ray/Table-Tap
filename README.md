@@ -1,4 +1,4 @@
-Overview
+Overview:
 Table Tap is a web application designed for seamless food and beverage ordering at restaurants, enhancing the overall dining experience. It is built using Next.js, Tailwind CSS, Firebase, and React Context API.
 
 Project Highlights
@@ -20,25 +20,18 @@ Getting Started
 To run this project locally, follow these steps:
 
 Clone the repository.
-
-bash
-Copy code
 git clone https://github.com/your-username/table-tap.git
+
 Install dependencies.
-
-bash
-Copy code
-cd table-tap
 npm install
-Start the development server.
 
-bash
-Copy code
+Start the development server.
 npm run dev
+
 Open your browser and navigate to http://localhost:3000 to view the application.
 
 Contributions and Contact
-If you have suggestions, enhancements, or would like to contribute, feel free to reach out. Contact us at your-email@example.com.
+If you have suggestions, enhancements, or would like to contribute, feel free to reach out. Contact us at utkarshdwivedi130903@gmail.com.
 
 License
 This project is licensed under the MIT License.
