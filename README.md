@@ -20,7 +20,7 @@ Getting Started
 To run this project locally, follow these steps:
 
 Clone the repository.
-git clone https://github.com/your-username/table-tap.git
+git clone https://github.com/Utkarsh13-ray/Table-Ordering.git
 
 Install dependencies.
 npm install
@@ -31,7 +31,7 @@ npm run dev
 Open your browser and navigate to http://localhost:3000 to view the application.
 
 Contributions and Contact
-If you have suggestions, enhancements, or would like to contribute, feel free to reach out. Contact us at utkarshdwivedi130903@gmail.com.
+If you have suggestions, or enhancements, or would like to contribute, feel free to reach out. Contact us at utkarshdwivedi130903@gmail.com.
 
 License
 This project is licensed under the MIT License.
